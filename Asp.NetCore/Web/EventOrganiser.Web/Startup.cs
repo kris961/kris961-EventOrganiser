@@ -2,6 +2,7 @@
 {
     using System.Reflection;
 
+    using EventOrganiser.Common;
     using EventOrganiser.Data;
     using EventOrganiser.Data.Common;
     using EventOrganiser.Data.Common.Repositories;
@@ -62,7 +63,7 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<IEmailSender>(x => new SendGridEmailSender(GlobalConstants.EmailApiKey));
             services.AddTransient<ISettingsService, SettingsService>();
         }
 
