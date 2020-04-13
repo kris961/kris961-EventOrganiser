@@ -1,16 +1,33 @@
 ﻿namespace EventOrganiser.Web.Controllers
 {
     using System.Diagnostics;
-
+    using System.Linq;
+    using EventOrganiser.Data;
     using EventOrganiser.Web.ViewModels;
-
+    using EventOrganiser.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
+        private readonly ApplicationDbContext db;
+
+        public HomeController(Data.ApplicationDbContext db)
+        {
+            this.db = db;
+        }
+
         public IActionResult Index()
         {
-            return this.View();
+            var viewModel = new IndexViewModel();
+            var events= this.db.Events.Select(x => new IndexEventViewModel
+            {
+                Name = x.Name,
+                Title = x.Title,
+                Description = x.Description,
+                Img = x.Img,
+            }).ToList();
+            viewModel.Events = events;
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()
