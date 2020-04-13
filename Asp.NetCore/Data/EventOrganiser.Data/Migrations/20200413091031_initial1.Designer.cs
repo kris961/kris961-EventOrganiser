@@ -11,7 +11,7 @@ namespace EventOrganiser.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20200413091031_initial1")]
-    partial class initial1
+    partial class Initial1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

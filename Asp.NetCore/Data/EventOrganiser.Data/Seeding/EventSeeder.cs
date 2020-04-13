@@ -29,7 +29,7 @@
                     Description = "firstSteps",
                     Date = DateTime.Now,
                     IsWhitelisted = false,
-                    Img = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ibizadiscoticket.com%2Fblog%2Fes%2Ftop-5-ibiza-pool-parties%2F&psig=AOvVaw0FF1LgkEhS3DbSJp4ffK4C&ust=1586854902774000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKCD_6eF5egCFQAAAAAdAAAAABAc",
+                    Img = "https://blogmedia.evbstatic.com/wp-content/uploads/wpmulti/sites/8/shutterstock_199419065.jpg",
                 });
             }
         }

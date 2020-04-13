@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace EventOrganiser.Data.Migrations
+﻿namespace EventOrganiser.Data.Migrations
 {
-    public partial class initial1 : Migration
+    using Microsoft.EntityFrameworkCore.Migrations;
+
+    public partial class Initial1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
