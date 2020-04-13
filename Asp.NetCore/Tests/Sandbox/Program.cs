@@ -5,6 +5,7 @@
     using System.IO;
     using System.Threading.Tasks;
 
+    using CommandLine;
     using EventOrganiser.Data;
     using EventOrganiser.Data.Common;
     using EventOrganiser.Data.Common.Repositories;
@@ -13,9 +14,6 @@
     using EventOrganiser.Data.Seeding;
     using EventOrganiser.Services.Data;
     using EventOrganiser.Services.Messaging;
-
-    using CommandLine;
-
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
