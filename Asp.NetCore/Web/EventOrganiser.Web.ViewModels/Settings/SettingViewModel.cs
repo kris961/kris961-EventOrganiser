@@ -1,9 +1,8 @@
 ﻿namespace EventOrganiser.Web.ViewModels.Settings
 {
+    using AutoMapper;
     using EventOrganiser.Data.Models;
     using EventOrganiser.Services.Mapping;
-
-    using AutoMapper;
 
     public class SettingViewModel : IMapFrom<Setting>, IHaveCustomMappings
     {

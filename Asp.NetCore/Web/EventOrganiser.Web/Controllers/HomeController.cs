@@ -2,6 +2,7 @@
 {
     using System.Diagnostics;
     using System.Linq;
+
     using EventOrganiser.Data;
     using EventOrganiser.Web.ViewModels;
     using EventOrganiser.Web.ViewModels.Home;
@@ -19,12 +20,15 @@
         public IActionResult Index()
         {
             var viewModel = new IndexViewModel();
-            var events= this.db.Events.Select(x => new IndexEventViewModel
+            var events = this.db.Events.Select(x => new IndexEventViewModel
             {
                 Name = x.Name,
                 Title = x.Title,
                 Description = x.Description,
                 Img = x.Img,
+                Location = x.Location,
+                DateTime = x.Date.ToString(),
+                IsWhitelisted = x.IsWhitelisted,
             }).ToList();
             viewModel.Events = events;
             return this.View(viewModel);

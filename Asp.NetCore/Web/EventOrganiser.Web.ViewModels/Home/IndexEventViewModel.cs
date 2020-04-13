@@ -10,6 +10,12 @@
 
         public string Img { get; set; }
 
+        public string Location { get; set; }
+
+        public string DateTime { get; set; }
+
+        public bool IsWhitelisted { get; set; }
+
         public string Url => $"/c/{this.Name.Replace(' ', '-')}";
     }
 }
