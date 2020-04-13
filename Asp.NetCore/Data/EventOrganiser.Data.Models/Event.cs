@@ -29,7 +29,7 @@
 
         public ICollection<ApplicationUser> Users { get; set; }
 
-        public bool IsWhitelisted { get; set; }
+        public Entry Entry { get; set; }
 
         public ICollection<Review> Reviews { get; set; }
     }

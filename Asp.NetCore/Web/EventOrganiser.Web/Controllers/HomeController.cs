@@ -27,8 +27,8 @@
                 Description = x.Description,
                 Img = x.Img,
                 Location = x.Location,
-                DateTime = x.Date.ToString(),
-                IsWhitelisted = x.IsWhitelisted,
+                DateTime = x.Date.ToString("d/M/yyyy HH:mm"),
+                Entry = x.Entry.ToString(),
             }).ToList();
             viewModel.Events = events;
             return this.View(viewModel);

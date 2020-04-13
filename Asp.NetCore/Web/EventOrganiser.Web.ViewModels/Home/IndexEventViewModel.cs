@@ -14,7 +14,7 @@
 
         public string DateTime { get; set; }
 
-        public bool IsWhitelisted { get; set; }
+        public string Entry { get; set; }
 
         public string Url => $"/c/{this.Name.Replace(' ', '-')}";
     }
