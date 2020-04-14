@@ -1,0 +1,115 @@
+﻿@model EventOrganiser.Web.ViewModels.Event.EventViewModel
+
+        <!------ Include the above in your HEAD tag ---------->
+        <!-- Page Content -->
+        <div class="container">
+
+            <!-- Portfolio Item Heading -->
+            <h1 class="my-4">
+                @Model.Title
+                <small>@Model.Entry</small>
+            </h1>
+
+            <!-- Portfolio Item Row -->
+            <div class="row">
+
+                <div class="col-md-8">
+                    <img class="img-fluid" src=@Model.Img alt="">
+                </div>
+
+                <div class="col-md-4">
+                    <h3 class="my-3">Details</h3>
+                    <p>@Model.Description</p>
+                    <h3 class="my-3">Project Details</h3>
+                    <ul>
+                        <li>Location: @Model.Location</li>
+                        <li>Date: @Model.Date</li>
+                    </ul>
+                </div>
+
+            </div>
+            <!-- /.row -->
+            <!-- Related Projects Row -->
+            <h3 class="my-4">Photos</h3>
+
+            <div class="row">
+
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <a href="#">
+                        <img class="img-fluid" src="http://placehold.it/500x300" alt="">
+                    </a>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <a href="#">
+                        <img class="img-fluid" src="http://placehold.it/500x300" alt="">
+                    </a>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <a href="#">
+                        <img class="img-fluid" src="http://placehold.it/500x300" alt="">
+                    </a>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <a href="#">
+                        <img class="img-fluid" src="http://placehold.it/500x300" alt="">
+                    </a>
+                </div>
+
+            </div>
+            <!-- /.row -->
+
+        </div>
+    <div class="row">
+        <div class="panel panel-default widget">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-comment"></span>
+                <h3 class="panel-title">
+                    Recent Comments
+                </h3>
+                <span class="label label-info">
+                    78
+                </span>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-1 col-md-1">
+                                <img src="http://placehold.it/80" class="img-circle img-responsive" alt="" />
+                            </div>
+                            <div class="col-xs-10 col-md-11">
+                                <div>
+                                    <a href="http://www.jquery2dotnet.com/2013/10/google-style-login-page-desing-usign.html">
+                                        Google Style Login Page Design Using Bootstrap
+                                    </a>
+                                    <div class="mic-info">
+                                        By: <a href="#">Bhaumik Patel</a> on 2 Aug 2013
+                                    </div>
+                                </div>
+                                <div class="comment-text">
+                                    Awesome design
+                                </div>
+                                <div class="action">
+                                    <button type="button" class="btn btn-primary btn-xs" title="Edit">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-success btn-xs" title="Approved">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-xs" title="Delete">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <a href="#" class="btn btn-primary btn-sm btn-block" role="button"><span class="glyphicon glyphicon-refresh"></span> More</a>
+            </div>
+        </div>
+    </div>
+
+

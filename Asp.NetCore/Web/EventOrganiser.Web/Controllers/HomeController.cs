@@ -4,33 +4,30 @@
     using System.Linq;
 
     using EventOrganiser.Data;
+    using EventOrganiser.Data.Common.Repositories;
+    using EventOrganiser.Data.Models;
+    using EventOrganiser.Services.Data;
+    using EventOrganiser.Services.Mapping;
     using EventOrganiser.Web.ViewModels;
     using EventOrganiser.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
-        private readonly ApplicationDbContext db;
+        private readonly IEventsService eventsService;
 
-        public HomeController(Data.ApplicationDbContext db)
+        public HomeController(IEventsService eventsService)
         {
-            this.db = db;
+            this.eventsService = eventsService;
         }
 
         public IActionResult Index()
         {
-            var viewModel = new IndexViewModel();
-            var events = this.db.Events.Select(x => new IndexEventViewModel
+            var viewModel = new IndexViewModel
             {
-                Name = x.Name,
-                Title = x.Title,
-                Description = x.Description,
-                Img = x.Img,
-                Location = x.Location,
-                DateTime = x.Date.ToString("d/M/yyyy HH:mm"),
-                Entry = x.Entry.ToString(),
-            }).ToList();
-            viewModel.Events = events;
+                Events =
+                this.eventsService.GetAll<IndexEventViewModel>(),
+            };
             return this.View(viewModel);
         }
 

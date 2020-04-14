@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventOrganiser.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200413115615_initial2")]
-    partial class Initial2
+    [Migration("20200414100246_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -87,8 +87,8 @@ namespace EventOrganiser.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("EventId")
-                        .HasColumnType("int");
+                    b.Property<string>("EventId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -148,10 +148,8 @@ namespace EventOrganiser.Data.Migrations
 
             modelBuilder.Entity("EventOrganiser.Data.Models.Event", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -206,8 +204,8 @@ namespace EventOrganiser.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
+                    b.Property<string>("EventId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -379,9 +377,7 @@ namespace EventOrganiser.Data.Migrations
                 {
                     b.HasOne("EventOrganiser.Data.Models.Event", "Event")
                         .WithMany("Reviews")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("EventId");
 
                     b.HasOne("EventOrganiser.Data.Models.ApplicationUser", "User")
                         .WithMany()

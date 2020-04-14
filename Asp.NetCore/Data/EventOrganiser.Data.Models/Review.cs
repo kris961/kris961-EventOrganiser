@@ -12,7 +12,7 @@
 
         public ApplicationUser User { get; set; }
 
-        public int EventId { get; set; }
+        public string EventId { get; set; }
 
         public Event Event { get; set; }
 

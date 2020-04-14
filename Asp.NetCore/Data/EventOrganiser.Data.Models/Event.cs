@@ -6,13 +6,15 @@
 
     using EventOrganiser.Data.Common.Models;
 
-    public class Event : BaseDeletableModel<int>
+    public class Event : BaseDeletableModel<string>
     {
         public Event()
         {
             this.Users = new HashSet<ApplicationUser>();
 
             this.Reviews = new HashSet<Review>();
+
+            this.Id = Guid.NewGuid().ToString();
         }
 
         public string Name { get; set; }

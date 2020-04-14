@@ -1,7 +1,12 @@
 ﻿namespace EventOrganiser.Web.ViewModels.Home
 {
-    public class IndexEventViewModel
+    using EventOrganiser.Data.Models;
+    using EventOrganiser.Services.Mapping;
+
+    public class IndexEventViewModel : IMapFrom<Event>
     {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public string Title { get; set; }
@@ -16,6 +21,6 @@
 
         public string Entry { get; set; }
 
-        public string Url => $"/c/{this.Name.Replace(' ', '-')}";
+        public string Url => $"/e/{this.Id}";
     }
 }

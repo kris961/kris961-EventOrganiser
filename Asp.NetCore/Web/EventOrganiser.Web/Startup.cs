@@ -65,6 +65,7 @@
             // Application services
             services.AddTransient<IEmailSender>(x => new SendGridEmailSender(GlobalConstants.EmailApiKey));
             services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IEventsService, EventsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -111,6 +112,7 @@
                     {
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                        endpoints.MapControllerRoute("eventDetails", "e/{Id}", new { controller = "Events", action = "ById" });
                         endpoints.MapRazorPages();
                     });
         }
