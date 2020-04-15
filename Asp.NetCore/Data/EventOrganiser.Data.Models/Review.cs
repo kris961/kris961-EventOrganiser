@@ -17,5 +17,9 @@
         public Event Event { get; set; }
 
         public string Messege { get; set; }
+
+        public int Like { get; set; }
+
+        public int Dislike { get; set; }
     }
 }

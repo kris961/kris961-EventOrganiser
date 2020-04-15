@@ -10,7 +10,7 @@
 </div>
 @if (User.Identity.Name != null)
 {
-    <div class="card-deck">
+    <div class="card-columns">
         @foreach (var appEvent in Model.Events)
         {
             @if (appEvent.Entry == "InviteOnly")

@@ -1,0 +1,33 @@
+﻿@model EventOrganiser.Web.ViewModels.Event.EventCreateViewModel
+
+    <form method="post" asp-action="Create">
+        <div class="form-group">
+            <label for="Name">Name of Event</label>
+            <input asp-for="Name" type="text" class="form-control" id="Title" aria-describedby="emailHelp" placeholder="the name of your event">
+        </div>
+        <div class="form-group">
+            <label for="Title">Title of event</label>
+            <input asp-for="Title" type="text" class="form-control" id="exampleInputPassword1" placeholder="the title of your event">
+        </div>
+        <div class="form-group">
+            <label for="Description">Description</label>
+            <input asp-for="Description" type="text" class="form-control" id="exampleInputPassword1" placeholder="short description">
+        </div>
+        <div class="form-group">
+            <label for="Location">Location</label>
+            <input asp-for="Location" type="text" class="form-control" id="exampleInputPassword1" placeholder="the location of the event">
+        </div>
+        <div class="form-group">
+            <label for="Date">Date</label>
+            <input asp-for="Date" type="text" class="form-control" id="exampleInputPassword1" placeholder="the date and time of the event">
+        </div>
+        <div class="form-group">
+            <label for="Entry">Entry</label>
+            <input asp-for="Entry" type="text" class="form-control" id="exampleInputPassword1" placeholder="Free/Payed/Invite only/Fundraiser">
+        </div>
+        <div class="form-group">
+            <label for="Img">Img</label>
+            <input asp-for="Img" type="text" class="form-control" id="exampleInputPassword1" placeholder="the main image of the event">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>

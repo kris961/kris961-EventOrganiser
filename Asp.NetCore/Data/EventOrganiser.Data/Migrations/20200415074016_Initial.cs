@@ -219,7 +219,9 @@ namespace EventOrganiser.Data.Migrations
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
                     EventId = table.Column<string>(nullable: true),
-                    Messege = table.Column<string>(nullable: true)
+                    Messege = table.Column<string>(nullable: true),
+                    Like = table.Column<int>(nullable: false),
+                    Dislike = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

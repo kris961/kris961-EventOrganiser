@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventOrganiser.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200414100246_Initial")]
+    [Migration("20200415074016_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -204,11 +204,17 @@ namespace EventOrganiser.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Dislike")
+                        .HasColumnType("int");
+
                     b.Property<string>("EventId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<int>("Like")
+                        .HasColumnType("int");
 
                     b.Property<string>("Messege")
                         .HasColumnType("nvarchar(max)");

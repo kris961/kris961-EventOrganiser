@@ -1,115 +1,309 @@
 ﻿@model EventOrganiser.Web.ViewModels.Event.EventViewModel
+<!------ Include the above in your HEAD tag ---------->
+<!-- Page Content -->
+<div class="container">
 
-        <!------ Include the above in your HEAD tag ---------->
-        <!-- Page Content -->
-        <div class="container">
+    <!-- Portfolio Item Heading -->
+    <h1 class="my-4">
+        @Model.Title
+        <small>@Model.Entry</small>
+    </h1>
 
-            <!-- Portfolio Item Heading -->
-            <h1 class="my-4">
-                @Model.Title
-                <small>@Model.Entry</small>
-            </h1>
+    <!-- Portfolio Item Row -->
+    <div class="row">
 
-            <!-- Portfolio Item Row -->
-            <div class="row">
+        <div class="col-md-8">
+            <img class="img-fluid" src=@Model.Img alt="">
+        </div>
 
-                <div class="col-md-8">
-                    <img class="img-fluid" src=@Model.Img alt="">
-                </div>
+        <div class="col-md-4">
+            <h3 class="my-3">Details</h3>
+            <p>@Model.Description</p>
+            <h3 class="my-3">Project Details</h3>
+            <ul>
+                <li>Location: @Model.Location</li>
+                <li>Date: @Model.Date</li>
+            </ul>
+        </div>
 
-                <div class="col-md-4">
-                    <h3 class="my-3">Details</h3>
-                    <p>@Model.Description</p>
-                    <h3 class="my-3">Project Details</h3>
-                    <ul>
-                        <li>Location: @Model.Location</li>
-                        <li>Date: @Model.Date</li>
+    </div>
+    <!-- /.row -->
+    <!-- Related Projects Row -->
+    <h3 class="my-4">Photos</h3>
+
+    <div class="row">
+
+        <div class="col-md-3 col-sm-6 mb-4">
+            <a href="#">
+                <img class="img-fluid" src="http://placehold.it/500x300" alt="">
+            </a>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mb-4">
+            <a href="#">
+                <img class="img-fluid" src="http://placehold.it/500x300" alt="">
+            </a>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mb-4">
+            <a href="#">
+                <img class="img-fluid" src="http://placehold.it/500x300" alt="">
+            </a>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mb-4">
+            <a href="#">
+                <img class="img-fluid" src="http://placehold.it/500x300" alt="">
+            </a>
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+</div>
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<div class="row">
+    @foreach (var comment in Model.Reviews)
+    {
+
+        <div class="col-md-8">
+            <div class="media g-mb-30 media-comment">
+                <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Image Description">
+                <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+                    <div class="g-mb-15">
+                        <h5 class="h5 g-color-gray-dark-v1 mb-0">@comment.User.Username</h5>
+                        <span class="g-color-gray-dark-v4 g-font-size-12">@comment.CreatedOn</span>
+                    </div>
+
+                    <p>
+                        @comment.Messege
+                    </p>
+
+                    <ul class="list-inline d-sm-flex my-0">
+                        <li class="list-inline-item g-mr-20">
+                            <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+                                <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i>
+                                @comment.Like
+                            </a>
+                        </li>
+                        <li class="list-inline-item g-mr-20">
+                            <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+                                <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
+                                @comment.Dislike
+                            </a>
+                        </li>
+                        <li class="list-inline-item ml-auto">
+                            <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
+                            </a>
+                        </li>
                     </ul>
                 </div>
-
             </div>
-            <!-- /.row -->
-            <!-- Related Projects Row -->
-            <h3 class="my-4">Photos</h3>
-
-            <div class="row">
-
-                <div class="col-md-3 col-sm-6 mb-4">
-                    <a href="#">
-                        <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-                    </a>
-                </div>
-
-                <div class="col-md-3 col-sm-6 mb-4">
-                    <a href="#">
-                        <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-                    </a>
-                </div>
-
-                <div class="col-md-3 col-sm-6 mb-4">
-                    <a href="#">
-                        <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-                    </a>
-                </div>
-
-                <div class="col-md-3 col-sm-6 mb-4">
-                    <a href="#">
-                        <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-                    </a>
-                </div>
-
-            </div>
-            <!-- /.row -->
-
         </div>
+    }
+    <style>
+        body {
+            margin-top: 20px;
+            background: #FDFDFD;
+        }
+
+        .g-height-50 {
+            height: 50px;
+        }
+
+        .g-width-50 {
+            width: 50px !important;
+        }
+
+        .g-bg-secondary {
+            background-color: #fafafa !important;
+        }
+
+        .u-shadow-v18 {
+            box-shadow: 0 5px 10px -6px rgba(0, 0, 0, 0.15);
+        }
+
+        .g-color-gray-dark-v4 {
+            color: #777 !important;
+        }
+
+        .g-font-size-12 {
+            font-size: 0.85714rem !important;
+        }
+
+        .media-comment {
+            margin-top: 20px
+        }
+    </style>
+</div>
+
+
+<!------ Include the above in your HEAD tag ---------->
+
+<link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
+<div class="container">
     <div class="row">
-        <div class="panel panel-default widget">
-            <div class="panel-heading">
-                <span class="glyphicon glyphicon-comment"></span>
-                <h3 class="panel-title">
-                    Recent Comments
-                </h3>
-                <span class="label label-info">
-                    78
-                </span>
-            </div>
-            <div class="panel-body">
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-xs-1 col-md-1">
-                                <img src="http://placehold.it/80" class="img-circle img-responsive" alt="" />
-                            </div>
-                            <div class="col-xs-10 col-md-11">
-                                <div>
-                                    <a href="http://www.jquery2dotnet.com/2013/10/google-style-login-page-desing-usign.html">
-                                        Google Style Login Page Design Using Bootstrap
-                                    </a>
-                                    <div class="mic-info">
-                                        By: <a href="#">Bhaumik Patel</a> on 2 Aug 2013
-                                    </div>
-                                </div>
-                                <div class="comment-text">
-                                    Awesome design
-                                </div>
-                                <div class="action">
-                                    <button type="button" class="btn btn-primary btn-xs" title="Edit">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </button>
-                                    <button type="button" class="btn btn-success btn-xs" title="Approved">
-                                        <span class="glyphicon glyphicon-ok"></span>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-xs" title="Delete">
-                                        <span class="glyphicon glyphicon-trash"></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <a href="#" class="btn btn-primary btn-sm btn-block" role="button"><span class="glyphicon glyphicon-refresh"></span> More</a>
-            </div>
-        </div>
+        <h3>Write a comment</h3>
     </div>
 
+    <div class="row">
 
+        <div class="col-md-6">
+            <div class="widget-area no-padding blank">
+                <div class="status-upload">
+                    <form>
+                        <textarea placeholder="What are you doing right now?"></textarea>
+                        <ul>
+                            <li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Audio"><i class="fa fa-music"></i></a></li>
+                            <li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Video"><i class="fa fa-video-camera"></i></a></li>
+                            <li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Sound Record"><i class="fa fa-microphone"></i></a></li>
+                            <li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Picture"><i class="fa fa-picture-o"></i></a></li>
+                        </ul>
+                        <button type="submit" class="btn btn-success green"><i class="fa fa-share"><</i> Share</button>
+                    </form>
+                </div><!-- Status Upload  -->
+            </div><!-- Widget Area -->
+        </div>
+
+    </div>
+</div>
+
+<style>
+    body {
+        background: #fafafa;
+    }
+
+    .widget-area.blank {
+        background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        -ms-box-shadow: none;
+        -o-box-shadow: none;
+        box-shadow: none;
+    }
+
+    body .no-padding {
+        padding: 0;
+    }
+
+    .widget-area {
+        background-color: #fff;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        -ms-border-radius: 4px;
+        -o-border-radius: 4px;
+        border-radius: 4px;
+        -webkit-box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
+        -moz-box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
+        -ms-box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
+        -o-box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
+        float: left;
+        margin-top: 30px;
+        padding: 25px 30px;
+        position: relative;
+        width: 100%;
+    }
+
+    .status-upload {
+        background: none repeat scroll 0 0 #f5f5f5;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        -ms-border-radius: 4px;
+        -o-border-radius: 4px;
+        border-radius: 4px;
+        float: left;
+        width: 100%;
+    }
+
+        .status-upload form {
+            float: left;
+            width: 100%;
+        }
+
+            .status-upload form textarea {
+                background: none repeat scroll 0 0 #fff;
+                border: medium none;
+                -webkit-border-radius: 4px 4px 0 0;
+                -moz-border-radius: 4px 4px 0 0;
+                -ms-border-radius: 4px 4px 0 0;
+                -o-border-radius: 4px 4px 0 0;
+                border-radius: 4px 4px 0 0;
+                color: #777777;
+                float: left;
+                font-family: Lato;
+                font-size: 14px;
+                height: 142px;
+                letter-spacing: 0.3px;
+                padding: 20px;
+                width: 1100px;
+                resize: vertical;
+                outline: none;
+                border: 1px solid #F2F2F2;
+            }
+
+        .status-upload ul {
+            float: left;
+            list-style: none outside none;
+            margin: 0;
+            padding: 0 0 0 15px;
+            width: auto;
+        }
+
+            .status-upload ul > li {
+                float: left;
+            }
+
+                .status-upload ul > li > a {
+                    -webkit-border-radius: 4px;
+                    -moz-border-radius: 4px;
+                    -ms-border-radius: 4px;
+                    -o-border-radius: 4px;
+                    border-radius: 4px;
+                    color: #777777;
+                    float: left;
+                    font-size: 14px;
+                    height: 30px;
+                    line-height: 30px;
+                    margin: 10px 0 10px 10px;
+                    text-align: center;
+                    -webkit-transition: all 0.4s ease 0s;
+                    -moz-transition: all 0.4s ease 0s;
+                    -ms-transition: all 0.4s ease 0s;
+                    -o-transition: all 0.4s ease 0s;
+                    transition: all 0.4s ease 0s;
+                    width: 300x;
+                    cursor: pointer;
+                }
+
+                    .status-upload ul > li > a:hover {
+                        background: none repeat scroll 0 0 #606060;
+                        color: #fff;
+                    }
+
+        .status-upload form button {
+            border: medium none;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            -ms-border-radius: 4px;
+            -o-border-radius: 4px;
+            border-radius: 4px;
+            color: #fff;
+            float: right;
+            font-family: Lato;
+            font-size: 14px;
+            letter-spacing: 0.3px;
+            margin-right: 9px;
+            margin-top: 9px;
+            padding: 6px 15px;
+        }
+
+    .dropdown > a > span.green:before {
+        border-left-color: #2dcb73;
+    }
+
+    .status-upload form button > i {
+        margin-right: 7px;
+    }
+</style>

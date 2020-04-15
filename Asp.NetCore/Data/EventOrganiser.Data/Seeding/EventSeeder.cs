@@ -49,7 +49,7 @@
                 Entry = Entry.InviteOnly,
                 Img = "https://blogmedia.evbstatic.com/wp-content/uploads/wpmulti/sites/8/shutterstock_199419065.jpg",
             });
-            Event @event = new Event
+            await dbContext.Events.AddAsync(new Event
             {
                 Name = "Category",
                 Location = "Nowhere",
@@ -58,7 +58,7 @@
                 Date = DateTime.Now,
                 Entry = Entry.Payed,
                 Img = "https://blogmedia.evbstatic.com/wp-content/uploads/wpmulti/sites/8/shutterstock_199419065.jpg",
-            };
+            });
         }
     }
 }

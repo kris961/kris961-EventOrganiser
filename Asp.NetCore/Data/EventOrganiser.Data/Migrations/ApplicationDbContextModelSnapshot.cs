@@ -202,11 +202,17 @@ namespace EventOrganiser.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Dislike")
+                        .HasColumnType("int");
+
                     b.Property<string>("EventId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<int>("Like")
+                        .HasColumnType("int");
 
                     b.Property<string>("Messege")
                         .HasColumnType("nvarchar(max)");
