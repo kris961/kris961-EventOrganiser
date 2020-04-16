@@ -58,7 +58,10 @@
                 Img = input.Img,
                 Date = input.Date,
                 Entry = input.Entry,
+                HostId = user.Id,
             };
+            UsersEvents usersEvents = new UsersEvents { Event = @event, EventId = @event.Id, User = user, UserId = user.Id };
+            @event.EventsUser.Add(usersEvents);
             await this.eventRepository.AddAsync(@event);
             await this.eventRepository.SaveChangesAsync();
             return this.RedirectToAction("ById", new { Id = @event.Id });

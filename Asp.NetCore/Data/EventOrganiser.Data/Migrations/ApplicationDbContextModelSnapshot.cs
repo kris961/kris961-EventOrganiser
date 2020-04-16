@@ -85,9 +85,6 @@ namespace EventOrganiser.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("EventId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -129,8 +126,6 @@ namespace EventOrganiser.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EventId");
-
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("NormalizedEmail")
@@ -164,6 +159,9 @@ namespace EventOrganiser.Data.Migrations
                     b.Property<int>("Entry")
                         .HasColumnType("int");
 
+                    b.Property<string>("HostId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Img")
                         .HasColumnType("nvarchar(max)");
 
@@ -184,9 +182,47 @@ namespace EventOrganiser.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("HostId");
+
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("EventOrganiser.Data.Models.Invite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EventId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("InvitedId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InvitedId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("InviterId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InviterId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId1");
+
+                    b.HasIndex("InvitedId1");
+
+                    b.HasIndex("InviterId1");
+
+                    b.ToTable("Invites");
                 });
 
             modelBuilder.Entity("EventOrganiser.Data.Models.Review", b =>
@@ -264,6 +300,21 @@ namespace EventOrganiser.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Settings");
+                });
+
+            modelBuilder.Entity("EventOrganiser.Data.Models.UsersEvents", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("EventId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "EventId");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("UsersEvents");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -370,11 +421,26 @@ namespace EventOrganiser.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("EventOrganiser.Data.Models.ApplicationUser", b =>
+            modelBuilder.Entity("EventOrganiser.Data.Models.Event", b =>
                 {
-                    b.HasOne("EventOrganiser.Data.Models.Event", null)
-                        .WithMany("Users")
-                        .HasForeignKey("EventId");
+                    b.HasOne("EventOrganiser.Data.Models.ApplicationUser", "Host")
+                        .WithMany("OrganisedEvents")
+                        .HasForeignKey("HostId");
+                });
+
+            modelBuilder.Entity("EventOrganiser.Data.Models.Invite", b =>
+                {
+                    b.HasOne("EventOrganiser.Data.Models.Event", "Event")
+                        .WithMany("Invites")
+                        .HasForeignKey("EventId1");
+
+                    b.HasOne("EventOrganiser.Data.Models.ApplicationUser", "Invited")
+                        .WithMany()
+                        .HasForeignKey("InvitedId1");
+
+                    b.HasOne("EventOrganiser.Data.Models.ApplicationUser", "Inviter")
+                        .WithMany()
+                        .HasForeignKey("InviterId1");
                 });
 
             modelBuilder.Entity("EventOrganiser.Data.Models.Review", b =>
@@ -386,6 +452,21 @@ namespace EventOrganiser.Data.Migrations
                     b.HasOne("EventOrganiser.Data.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("EventOrganiser.Data.Models.UsersEvents", b =>
+                {
+                    b.HasOne("EventOrganiser.Data.Models.Event", "Event")
+                        .WithMany("EventsUser")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("EventOrganiser.Data.Models.ApplicationUser", "User")
+                        .WithMany("UsersEvent")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

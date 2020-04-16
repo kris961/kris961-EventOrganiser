@@ -1,11 +1,12 @@
-﻿using EventOrganiser.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace EventOrganiser.Web.ViewModels.Event
+﻿namespace EventOrganiser.Web.ViewModels.Event
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Text;
+
+    using EventOrganiser.Data.Models;
+
     public class EventCreateViewModel
     {
         [Required]
@@ -30,4 +31,3 @@ namespace EventOrganiser.Web.ViewModels.Event
         public Entry Entry { get; set; }
     }
 }
-

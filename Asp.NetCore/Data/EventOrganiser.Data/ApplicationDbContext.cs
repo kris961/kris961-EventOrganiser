@@ -30,6 +30,10 @@
 
         public DbSet<Review> Reviews { get; set; }
 
+        public DbSet<Invite> Invites { get; set; }
+
+        public DbSet<UsersEvents> UsersEvents { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -53,6 +57,8 @@
         {
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
+
+            builder.Entity<UsersEvents>().HasKey(ck => new { ck.UserId, ck.EventId });
 
             this.ConfigureUserIdentityRelations(builder);
 

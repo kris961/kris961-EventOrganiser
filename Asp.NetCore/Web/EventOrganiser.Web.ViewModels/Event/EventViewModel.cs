@@ -8,6 +8,7 @@
     using EventOrganiser.Services.Mapping;
     using EventOrganiser.Web.ViewModels.Review;
     using EventOrganiser.Web.ViewModels.User;
+    using Microsoft.AspNetCore.Identity;
 
     public class EventViewModel : IMapFrom<Event>
     {
@@ -25,7 +26,7 @@
 
         public Entry Entry { get; set; }
 
-        public IEnumerable<UserViewModel> Users { get; set; }
+        public IEnumerable<UsersEvents> EventsUser { get; set; }
 
         public IEnumerable<ReviewViewModel> Reviews { get; set; }
     }

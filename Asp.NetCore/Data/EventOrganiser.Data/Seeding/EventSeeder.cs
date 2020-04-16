@@ -17,48 +17,48 @@
                 return;
             }
 
-            await dbContext.Events.AddAsync(new Event
-            {
-                Name = "Category",
-                Location = "Nowhere",
-                Title = "test",
-                Description = "firstSteps",
-                Date = DateTime.Now,
-                Entry = Entry.Free,
-                Img = "https://blogmedia.evbstatic.com/wp-content/uploads/wpmulti/sites/8/shutterstock_199419065.jpg",
-            });
-
-            await dbContext.Events.AddAsync(new Event
-            {
-                Name = "Category",
-                Location = "Nowhere",
-                Title = "test",
-                Description = "firstSteps",
-                Date = DateTime.Now,
-                Entry = Entry.Fundraiser,
-                Img = "https://blogmedia.evbstatic.com/wp-content/uploads/wpmulti/sites/8/shutterstock_199419065.jpg",
-            });
-
-            await dbContext.Events.AddAsync(new Event
-            {
-                Name = "Category",
-                Location = "Nowhere",
-                Title = "test",
-                Description = "firstSteps",
-                Date = DateTime.Now,
-                Entry = Entry.InviteOnly,
-                Img = "https://blogmedia.evbstatic.com/wp-content/uploads/wpmulti/sites/8/shutterstock_199419065.jpg",
-            });
-            await dbContext.Events.AddAsync(new Event
-            {
-                Name = "Category",
-                Location = "Nowhere",
-                Title = "test",
-                Description = "firstSteps",
-                Date = DateTime.Now,
-                Entry = Entry.Payed,
-                Img = "https://blogmedia.evbstatic.com/wp-content/uploads/wpmulti/sites/8/shutterstock_199419065.jpg",
-            });
+            // await dbContext.Events.AddAsync(new Event
+            // {
+            //     Name = "Category",
+            //     Location = "Nowhere",
+            //     Title = "test",
+            //     Description = "firstSteps",
+            //     Date = DateTime.Now,
+            //     Entry = Entry.Free,
+            //     Img = "https://blogmedia.evbstatic.com/wp-content/uploads/wpmulti/sites/8/shutterstock_199419065.jpg",
+            // });
+            //
+            // await dbContext.Events.AddAsync(new Event
+            // {
+            //     Name = "Category",
+            //     Location = "Nowhere",
+            //     Title = "test",
+            //     Description = "firstSteps",
+            //     Date = DateTime.Now,
+            //     Entry = Entry.Fundraiser,
+            //     Img = "https://blogmedia.evbstatic.com/wp-content/uploads/wpmulti/sites/8/shutterstock_199419065.jpg",
+            // });
+            //
+            // await dbContext.Events.AddAsync(new Event
+            // {
+            //     Name = "Category",
+            //     Location = "Nowhere",
+            //     Title = "test",
+            //     Description = "firstSteps",
+            //     Date = DateTime.Now,
+            //     Entry = Entry.InviteOnly,
+            //     Img = "https://blogmedia.evbstatic.com/wp-content/uploads/wpmulti/sites/8/shutterstock_199419065.jpg",
+            // });
+            // await dbContext.Events.AddAsync(new Event
+            // {
+            //     Name = "Category",
+            //     Location = "Nowhere",
+            //     Title = "test",
+            //     Description = "firstSteps",
+            //     Date = DateTime.Now,
+            //     Entry = Entry.Payed,
+            //     Img = "https://blogmedia.evbstatic.com/wp-content/uploads/wpmulti/sites/8/shutterstock_199419065.jpg",
+            // });
         }
     }
 }

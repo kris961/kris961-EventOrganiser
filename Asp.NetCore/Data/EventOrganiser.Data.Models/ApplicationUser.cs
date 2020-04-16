@@ -16,6 +16,7 @@ namespace EventOrganiser.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
+            this.UsersEvent = new HashSet<UsersEvents>();
         }
 
         // Audit info
@@ -33,5 +34,14 @@ namespace EventOrganiser.Data.Models
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
+
+        public ICollection<UsersEvents> UsersEvent { get; set; }
+
+        public ICollection<Event> OrganisedEvents { get; set; }
+
+        public string GetUserId()
+        {
+            return this.Id;
+        }
     }
 }

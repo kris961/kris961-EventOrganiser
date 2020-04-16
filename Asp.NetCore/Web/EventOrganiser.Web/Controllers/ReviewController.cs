@@ -13,29 +13,29 @@
 
     public class ReviewController : Controller
     {
-        //private readonly IDeletableEntityRepository<Review> reviewRepository;
-        //private readonly UserManager<ApplicationUser> userManager;
+        // private readonly IDeletableEntityRepository<Review> reviewRepository;
+        // private readonly UserManager<ApplicationUser> userManager;
         //
-        //public ReviewController(IDeletableEntityRepository<Review>reviewRepository,UserManager<ApplicationUser> userManager)
-        //{
-        //    this.reviewRepository = reviewRepository;
-        //    this.userManager = userManager;
-        //}
+        // public ReviewController(IDeletableEntityRepository<Review>reviewRepository,UserManager<ApplicationUser> userManager)
+        // {
+        //     this.reviewRepository = reviewRepository;
+        //     this.userManager = userManager;
+        // }
         //
-        //[HttpPost]
-        //public async Task<IActionResult> Create(CreateReviewViewModel input)
-        //{
-        //    var user = await userManager.GetUserAsync(this.User);
-        //    var review = new Review
-        //    {
-        //        UserId = user.Id,
-        //        EventId = input.EventId,
-        //        Messege = input.Messege,
-        //    };
-        //    await this.reviewRepository.AddAsync(review);
-        //    await this.reviewRepository.SaveChangesAsync();
+        // [HttpPost]
+        // public async Task<IActionResult> Create(CreateReviewViewModel input)
+        // {
+        //     var user = await userManager.GetUserAsync(this.User);
+        //     var review = new Review
+        //     {
+        //         UserId = user.Id,
+        //         EventId = input.EventId,
+        //         Messege = input.Messege,
+        //     };
+        //     await this.reviewRepository.AddAsync(review);
+        //     await this.reviewRepository.SaveChangesAsync();
         //
-        //    return this.RedirectToAction("ById", new { id=review.EventId});
-        //}
+        //     return this.RedirectToAction("ById", new { id=review.EventId});
+        // }
     }
 }
