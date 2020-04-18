@@ -4,13 +4,14 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using EventOrganiser.Data;
     using EventOrganiser.Data.Common.Repositories;
     using EventOrganiser.Data.Models;
     using EventOrganiser.Data.Repositories;
     using EventOrganiser.Services.Data;
     using EventOrganiser.Web.ViewModels.Event;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -19,12 +20,14 @@
         private readonly IEventsService eventsService;
         private readonly IDeletableEntityRepository<Event> eventRepository;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ApplicationDbContext dbContext;
 
-        public EventsController(IEventsService eventsService, IDeletableEntityRepository<Event> eventRepository, UserManager<ApplicationUser> userManager)
+        public EventsController(IEventsService eventsService, IDeletableEntityRepository<Event> eventRepository, UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
         {
             this.eventsService = eventsService;
             this.eventRepository = eventRepository;
             this.userManager = userManager;
+            this.dbContext = dbContext;
         }
 
         public IActionResult ById(string id)
@@ -65,6 +68,31 @@
             await this.eventRepository.AddAsync(@event);
             await this.eventRepository.SaveChangesAsync();
             return this.RedirectToAction("ById", new { Id = @event.Id });
+        }
+
+        [Authorize]
+        [HttpGet("/e/AddUserToEvent")]
+        public async Task<IActionResult> Join(string eventId)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+            UsersEvents usersEvents = new UsersEvents { EventId = eventId, UserId = user.Id };
+            await this.dbContext.UsersEvents.AddAsync(usersEvents);
+            await this.dbContext.SaveChangesAsync();
+
+            return this.RedirectToAction("ById", new { Id = eventId });
+        }
+
+
+        [Authorize]
+        [HttpGet("/e/RemoveUserFromEvent")]
+        public async Task<IActionResult> Leave(string eventId)
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+            var usersEvent = this.dbContext.UsersEvents.Where(x => x.UserId == user.Id).Where(x => x.EventId == eventId).FirstOrDefault();
+            this.dbContext.UsersEvents.Remove(usersEvent);
+            await this.dbContext.SaveChangesAsync();
+
+            return this.RedirectToAction("ById", new { Id = eventId });
         }
     }
 }

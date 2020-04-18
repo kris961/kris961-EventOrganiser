@@ -6,14 +6,14 @@
 @{string id = userManager.GetUserId(User);}
 @if (Model.EventsUser.Any(x => x.UserId == userManager.GetUserId(User)))
 {
-    <div class="float-right">
-        <a class="btn-danger" asp-area="" asp-controller="Events" asp-action="Leave">Leave</a>
+    <div class="button-holder">
+        <a href="/e/RemoveUserFromEvent?eventId=@Model.Id" class="btn btn-primary btn-block text-uppercase">Leave</a>
     </div>
 }
 else
 {
-    <div class="float-right">
-        <a class="btn-info" asp-area="" asp-controller="Events" asp-action="Join">Join</a>
+    <div class="button-holder">
+        <a href="/e/AddUserToEvent?eventId=@Model.Id" class="btn btn-primary btn-block text-uppercase">Join</a>
     </div>
 }
 
@@ -89,7 +89,6 @@ else
         </div>
     }
     <style>
-
         body {
             margin-top: 20px;
             background: #FDFDFD;
@@ -157,7 +156,6 @@ else
 </div>
 
 <style>
-
     body {
         background: #fafafa;
     }
