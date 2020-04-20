@@ -29,5 +29,7 @@
         public IEnumerable<UsersEvents> EventsUser { get; set; }
 
         public IEnumerable<ReviewViewModel> Reviews { get; set; }
+
+        public string HostId { get; set; }
     }
 }

@@ -32,7 +32,7 @@
 
         public T GetById<T>(string id)
         {
-            var appevent = this.eventRepository.All().Where(x => x.Id == id)
+            var appevent = this.eventRepository.All().Where(x => x.Id == id).Where(x => x.IsDeleted == false)
                 .To<T>().FirstOrDefault();
             return appevent;
         }

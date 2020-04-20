@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.Text;
 
-    public class IndexViewModel
+    public class AllViewModel
     {
-        public IEnumerable<IndexEventViewModel> Events { get; set; }
+        public IEnumerable<SingleEventViewModel> Events { get; set; }
     }
 }

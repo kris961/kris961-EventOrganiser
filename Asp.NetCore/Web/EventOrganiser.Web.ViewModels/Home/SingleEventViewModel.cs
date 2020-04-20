@@ -3,7 +3,7 @@
     using EventOrganiser.Data.Models;
     using EventOrganiser.Services.Mapping;
 
-    public class IndexEventViewModel : IMapFrom<Event>
+    public class SingleEventViewModel : IMapFrom<Event>
     {
         public string Id { get; set; }
 

@@ -4,11 +4,24 @@
 
 @inject UserManager<ApplicationUser> userManager
 @{string id = userManager.GetUserId(User);}
+@inject EventOrganiser.Data.ApplicationDbContext dbContext;
 @if (Model.EventsUser.Any(x => x.UserId == userManager.GetUserId(User)))
 {
-    <div class="button-holder">
-        <a href="/e/RemoveUserFromEvent?eventId=@Model.Id" class="btn btn-primary btn-block text-uppercase">Leave</a>
-    </div>
+    if (userManager.GetUserId(User) == Model.HostId)
+    {
+        <div style="float:right" id="DeleteBtn" class="button-holder">
+            <a href="/e/DeleteEvent?eventId=@Model.Id" class="btn btn-primary btn-block text-uppercase">Delete</a>
+        </div>
+        <div id="EditBtn" class="button-holder">
+            <a href="/e/EditEvent?eventId=@Model.Id" class="btn btn-primary btn-block text-uppercase">Edit</a>
+        </div>
+    }
+    else
+    {
+        <div class="button-holder">
+            <a href="/e/RemoveUserFromEvent?eventId=@Model.Id" class="btn btn-primary btn-block text-uppercase">Leave</a>
+        </div>
+    }
 }
 else
 {
@@ -48,7 +61,6 @@ else
 
 </div>
 
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <div class="row">
     @foreach (var comment in Model.Reviews)
     {
@@ -123,38 +135,7 @@ else
         }
     </style>
 </div>
-
-
 <!------ Include the above in your HEAD tag ---------->
-
-<link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
-<div class="container">
-    <div class="row">
-        <h3>Write a comment</h3>
-    </div>
-
-    <div class="row">
-
-        <div class="col-md-6">
-            <div class="widget-area no-padding blank">
-                <div class="status-upload">
-                    <form>
-                        <textarea placeholder="What are you doing right now?"></textarea>
-                        <ul>
-                            <li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Audio"><i class="fa fa-music"></i></a></li>
-                            <li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Video"><i class="fa fa-video-camera"></i></a></li>
-                            <li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Sound Record"><i class="fa fa-microphone"></i></a></li>
-                            <li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Picture"><i class="fa fa-picture-o"></i></a></li>
-                        </ul>
-                        <button type="submit" class="btn btn-success green"><i class="fa fa-share"><</i> Share</button>
-                    </form>
-                </div><!-- Status Upload  -->
-            </div><!-- Widget Area -->
-        </div>
-
-    </div>
-</div>
-
 <style>
     body {
         background: #fafafa;
@@ -293,3 +274,10 @@ else
         margin-right: 7px;
     }
 </style>
+
+<style>
+    #EditBtn{
+        margin-right: 3px;
+        float:right;
+    }
+    </style>

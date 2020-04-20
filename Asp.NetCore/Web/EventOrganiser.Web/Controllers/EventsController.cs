@@ -10,10 +10,12 @@
     using EventOrganiser.Data.Repositories;
     using EventOrganiser.Services.Data;
     using EventOrganiser.Web.ViewModels.Event;
+    using EventOrganiser.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
 
     public class EventsController : Controller
     {
@@ -62,6 +64,7 @@
                 Date = input.Date,
                 Entry = input.Entry,
                 HostId = user.Id,
+                Location = input.Location,
             };
             UsersEvents usersEvents = new UsersEvents { Event = @event, EventId = @event.Id, User = user, UserId = user.Id };
             @event.EventsUser.Add(usersEvents);
@@ -74,14 +77,14 @@
         [HttpGet("/e/AddUserToEvent")]
         public async Task<IActionResult> Join(string eventId)
         {
+            var @event = this.dbContext.Events.FirstOrDefault(x => x.Id == eventId);
             var user = await this.userManager.GetUserAsync(this.User);
-            UsersEvents usersEvents = new UsersEvents { EventId = eventId, UserId = user.Id };
+            UsersEvents usersEvents = new UsersEvents { EventId = eventId, Event = @event, User = user, UserId = user.Id };
             await this.dbContext.UsersEvents.AddAsync(usersEvents);
             await this.dbContext.SaveChangesAsync();
 
             return this.RedirectToAction("ById", new { Id = eventId });
         }
-
 
         [Authorize]
         [HttpGet("/e/RemoveUserFromEvent")]
@@ -93,6 +96,44 @@
             await this.dbContext.SaveChangesAsync();
 
             return this.RedirectToAction("ById", new { Id = eventId });
+        }
+
+        [HttpGet("/e/EditEvent")]
+        public IActionResult Edit(string eventId)
+        {
+            var @event = this.dbContext.Events.FirstOrDefault(x => x.Id == eventId);
+            return this.View(@event);
+        }
+
+        [HttpPost]
+        public IActionResult EditEvent(Event @event)
+        {
+            this.dbContext.Events.Update(@event);
+            this.dbContext.SaveChanges();
+            return this.RedirectToAction("All");
+        }
+
+        [HttpGet("/e/DeleteEvent")]
+        public async Task<IActionResult> Delete(string eventId)
+        {
+            var @event = this.dbContext.Events.FirstOrDefault(x => x.Id == eventId);
+            // @event.EventsUser = null;
+            // @event.Reviews = null;
+            @event.IsDeleted = true;
+            // this.dbContext.Events.Remove(@event);
+            this.eventRepository.Update(@event);
+            await this.dbContext.SaveChangesAsync();
+            return this.RedirectToAction("All");
+        }
+
+        public IActionResult All()
+        {
+            var viewModel = new AllViewModel
+            {
+                Events =
+                this.eventsService.GetAll<SingleEventViewModel>(),
+            };
+            return this.View(viewModel);
         }
     }
 }
