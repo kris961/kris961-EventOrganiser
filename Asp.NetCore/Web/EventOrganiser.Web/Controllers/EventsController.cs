@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using EventOrganiser.Data;
     using EventOrganiser.Data.Common.Repositories;
     using EventOrganiser.Data.Models;
@@ -108,7 +109,9 @@
         [HttpPost]
         public IActionResult EditEvent(Event @event)
         {
-            this.dbContext.Events.Update(@event);
+            var oldevent = this.dbContext.Events.FirstOrDefault(x => x.Id == @event.Id);
+            this.dbContext.Events.Remove(oldevent);
+            this.dbContext.Events.Add(@event);
             this.dbContext.SaveChanges();
             return this.RedirectToAction("All");
         }
@@ -117,10 +120,7 @@
         public async Task<IActionResult> Delete(string eventId)
         {
             var @event = this.dbContext.Events.FirstOrDefault(x => x.Id == eventId);
-            // @event.EventsUser = null;
-            // @event.Reviews = null;
             @event.IsDeleted = true;
-            // this.dbContext.Events.Remove(@event);
             this.eventRepository.Update(@event);
             await this.dbContext.SaveChangesAsync();
             return this.RedirectToAction("All");
