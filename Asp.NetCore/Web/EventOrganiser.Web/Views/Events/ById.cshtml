@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Identity
 @using EventOrganiser.Data.Models
 
-@inject UserManager<ApplicationUser> userManager
+    @inject UserManager<ApplicationUser> userManager
 @{string id = userManager.GetUserId(User);}
 @inject EventOrganiser.Data.ApplicationDbContext dbContext;
 @if (Model.EventsUser.Any(x => x.UserId == userManager.GetUserId(User)))
@@ -61,80 +61,258 @@ else
 
 </div>
 
-<div class="row">
-    @foreach (var comment in Model.Reviews)
-    {
 
-        <div class="col-md-8">
-            <div class="media g-mb-30 media-comment">
-                <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Image Description">
-                <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
-                    <div class="g-mb-15">
-                        <h5 class="h5 g-color-gray-dark-v1 mb-0">@comment.User.Username</h5>
-                        <span class="g-color-gray-dark-v4 g-font-size-12">@comment.CreatedOn</span>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap 4 Blog Post Comments Section Design</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="comments">
+                    <div class="comments-details">
+                        <span class="total-comments comments-sort">@Model.Comments.Count() Comments</span>
+                        <span class="dropdown">
+                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">Sort By <span class="caret"></span></button>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item">Top Comments</a>
+                                <a href="#" class="dropdown-item">Newest First</a>
+                            </div>
+                        </span>
                     </div>
 
-                    <p>
-                        @comment.Messege
-                    </p>
 
-                    <ul class="list-inline d-sm-flex my-0">
-                        <li class="list-inline-item g-mr-20">
-                            <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
-                                <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i>
-                                @comment.Like
-                            </a>
-                        </li>
-                        <li class="list-inline-item g-mr-20">
-                            <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
-                                <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
-                                @comment.Dislike
-                            </a>
-                        </li>
-                        <li class="list-inline-item ml-auto">
-                            <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">
-                            </a>
-                        </li>
-                    </ul>
+                    <div class="button-holder">
+                        <a href="/e/Comment?eventId=@Model.Id" class="btn btn-primary btn-block text-uppercase">WriteComment</a>
+                    </div>
+
+
+
+                    <div class="comment-box">
+                        <span class="commenter-pic">
+                            <img src="/images/user-icon.jpg" class="img-fluid">
+                        </span>
+                        <span class="commenter-name">
+                            <a href="#">Happy uiuxStream</a> <span class="comment-time">2 hours ago</span>
+                        </span>
+                        <p class="comment-txt more">Suspendisse massa enim, condimentum sit amet maximus quis, pulvinar sit amet ante. Fusce eleifend dui mi, blandit vehicula orci iaculis ac.</p>
+                        <div class="comment-meta">
+                            <button class="comment-like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 99</button>
+                            <button class="comment-dislike"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> 149</button>
+                            <button class="comment-reply"><i class="fa fa-reply-all" aria-hidden="true"></i> Reply</button>
+                        </div>
+                        <div class="comment-box replied">
+                            <span class="commenter-pic">
+                                <img src="/images/user-icon.jpg" class="img-fluid">
+                            </span>
+                            <span class="commenter-name">
+                                <a href="#">Happy uiuxStream</a> <span class="comment-time">2 hours ago</span>
+                            </span>
+                            <p class="comment-txt more">Suspendisse massa enim, condimentum sit amet maximus quis, pulvinar sit amet ante. Fusce eleifend dui mi, blandit vehicula orci iaculis ac.</p>
+                            <div class="comment-meta">
+                                <button class="comment-like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 99</button>
+                                <button class="comment-dislike"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> 149</button>
+                                <button class="comment-reply"><i class="fa fa-reply-all" aria-hidden="true"></i> Reply</button>
+                            </div>
+                            <div class="comment-box replied">
+                                <span class="commenter-pic">
+                                    <img src="/images/user-icon.jpg" class="img-fluid">
+                                </span>
+                                <span class="commenter-name">
+                                    <a href="#">Happy uiuxStream</a> <span class="comment-time">2 hours ago</span>
+                                </span>
+                                <p class="comment-txt more">Suspendisse massa enim, condimentum sit amet maximus quis, pulvinar sit amet ante. Fusce eleifend dui mi, blandit vehicula orci iaculis ac.</p>
+                                <div class="comment-meta">
+                                    <button class="comment-like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 99</button>
+                                    <button class="comment-dislike"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> 149</button>
+                                    <button class="comment-reply"><i class="fa fa-reply-all" aria-hidden="true"></i> Reply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+</body>
+</html>
+
+
+
+<style>
+    .comments-details button.btn.dropdown-toggle,
+    .comments-details .total-comments {
+        font-size: 18px;
+        font-weight: 500;
+        color: #5e5e5e;
     }
-    <style>
-        body {
-            margin-top: 20px;
-            background: #FDFDFD;
+
+    .comments-details {
+        padding: 15px 15px;
+    }
+
+    .comments .comments .dropdown,
+    .comments .dropup {
+        position: relative;
+    }
+
+    .comments button {
+        background-color: transparent;
+        border: none;
+    }
+
+    .comments .comment-box {
+        width: 100%;
+        float: left;
+        height: 100%;
+        background-color: #FAFAFA;
+        padding: 10px 10px 10px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+
+    .comments .add-comment {
+        background-color: transparent;
+        border: none;
+        position: relative;
+        margin-bottom: 50px;
+    }
+
+    .comments .commenter-pic {
+        width: 50px;
+        height: 50px;
+        display: inline-block;
+        border-radius: 100%;
+        border: 2px solid #fff;
+        overflow: hidden;
+        background-color: #fff;
+    }
+
+    .comments .add-comment .commenter-name {
+        width: 100%;
+        padding-left: 75px;
+        position: absolute;
+        top: 20px;
+        left: 0px;
+    }
+
+    .comments .add-comment input {
+        border-top: 0px;
+        border-bottom: 1px solid #ccc;
+        border-left: 0px;
+        border-right: 0px;
+        outline: 0px;
+        box-shadow: none;
+        border-radius: 0;
+        width: 100%;
+        padding: 0;
+        font-weight: normal;
+    }
+
+        .comments .add-comment input:focus {
+            border-color: #03a9f4;
+            border-width: 2px;
         }
 
-        .g-height-50 {
-            height: 50px;
-        }
+    .comments .add-comment button[type=submit] {
+        background-color: #03a9f4;
+        color: #fff;
+        margin-right: 0px;
+    }
 
-        .g-width-50 {
-            width: 50px !important;
-        }
+    .comments .add-comment button {
+        background-color: #f5f5f5;
+        margin: 10px 5px;
+        font-size: 14px;
+        text-transform: uppercase;
+        float: right;
+    }
 
-        .g-bg-secondary {
-            background-color: #fafafa !important;
-        }
+    .comments .commenter-name .comment-time {
+        font-weight: normal;
+        margin-left: 8px;
+        font-size: 15px;
+    }
 
-        .u-shadow-v18 {
-            box-shadow: 0 5px 10px -6px rgba(0, 0, 0, 0.15);
-        }
+    .comments p.comment-txt {
+        font-size: 15px;
+        border-bottom: 1px solid #ddd;
+        padding: 0px 0px 15px;
+    }
 
-        .g-color-gray-dark-v4 {
-            color: #777 !important;
-        }
+    .comments .commenter-name {
+        display: inline-block;
+        position: relative;
+        top: -20px;
+        left: 10px;
+        font-size: 16px;
+        font-weight: bold;
+    }
 
-        .g-font-size-12 {
-            font-size: 0.85714rem !important;
-        }
+    .comments .comment-meta {
+        font-size: 14px;
+        color: #333;
+        padding: 2px 5px 0px;
+        line-height: 20px;
+        float: right;
+    }
 
-        .media-comment {
-            margin-top: 20px
-        }
-    </style>
-</div>
+    .comments .reply-box {
+        display: none;
+    }
+
+    .comments .replied {
+        background-color: #fff;
+        width: 95%;
+        float: right;
+        margin-top: 15px;
+    }
+
+    /*======Responsive CSS=======*/
+    .comments .commenter-pic {
+        width: 40px;
+        height: 40px;
+    }
+
+    .comments .commenter-name a {
+        display: block;
+    }
+
+    .comments .commenter-name .comment-time {
+        display: block;
+        margin-left: 0px;
+    }
+    }
+</style>
+
+<script>
+    // Reply box popup JS
+    $(document).ready(function () {
+        $(".reply-popup").click(function () {
+            $(".reply-box").toggle();
+        });
+    });
+</script>
+
+
+
+
+
+
 <!------ Include the above in your HEAD tag ---------->
 <style>
     body {
@@ -276,8 +454,10 @@ else
 </style>
 
 <style>
-    #EditBtn{
+    #EditBtn {
         margin-right: 3px;
-        float:right;
+        float: right;
     }
-    </style>
+</style>
+
+

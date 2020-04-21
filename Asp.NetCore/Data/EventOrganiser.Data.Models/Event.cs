@@ -12,11 +12,11 @@
         {
             this.EventsUser = new HashSet<UsersEvents>();
 
-            this.Reviews = new HashSet<Review>();
-
             this.Id = Guid.NewGuid().ToString();
 
             this.Invites = new HashSet<Invite>();
+
+            this.Comments = new HashSet<Comment>();
         }
 
         public string Name { get; set; }
@@ -35,12 +35,12 @@
 
         public Entry Entry { get; set; }
 
-        public ICollection<Review> Reviews { get; set; }
-
         public ICollection<Invite> Invites { get; set; }
 
         public ApplicationUser Host { get; set; }
 
         public string HostId { get; set; }
+
+        public ICollection<Comment> Comments { get; set; }
     }
 }

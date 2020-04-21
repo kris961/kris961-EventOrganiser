@@ -8,7 +8,7 @@
     using EventOrganiser.Services.Mapping;
     using EventOrganiser.Web.ViewModels.User;
 
-    public class ReviewViewModel : IMapFrom<Review>
+    public class ReviewViewModel : IMapFrom<Comment>
     {
         public DateTime CreatedOn { get; set; }
 

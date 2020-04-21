@@ -28,8 +28,10 @@
 
         public IEnumerable<UsersEvents> EventsUser { get; set; }
 
-        public IEnumerable<ReviewViewModel> Reviews { get; set; }
+        public IEnumerable<CommentViewModel> Comments { get; set; }
 
         public string HostId { get; set; }
+
+        public string Comment { get; set; }
     }
 }

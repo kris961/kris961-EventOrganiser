@@ -139,6 +139,51 @@ namespace EventOrganiser.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("EventOrganiser.Data.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Dislike")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EventId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Like")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Messege")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("EventOrganiser.Data.Models.Event", b =>
                 {
                     b.Property<string>("Id")
@@ -225,12 +270,18 @@ namespace EventOrganiser.Data.Migrations
                     b.ToTable("Invites");
                 });
 
-            modelBuilder.Entity("EventOrganiser.Data.Models.Review", b =>
+            modelBuilder.Entity("EventOrganiser.Data.Models.Reply", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -238,20 +289,8 @@ namespace EventOrganiser.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Dislike")
-                        .HasColumnType("int");
-
-                    b.Property<string>("EventId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<int>("Like")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Messege")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
@@ -261,13 +300,13 @@ namespace EventOrganiser.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EventId");
+                    b.HasIndex("CommentId");
 
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Replies");
                 });
 
             modelBuilder.Entity("EventOrganiser.Data.Models.Setting", b =>
@@ -421,6 +460,17 @@ namespace EventOrganiser.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("EventOrganiser.Data.Models.Comment", b =>
+                {
+                    b.HasOne("EventOrganiser.Data.Models.Event", "Event")
+                        .WithMany("Comments")
+                        .HasForeignKey("EventId");
+
+                    b.HasOne("EventOrganiser.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("EventOrganiser.Data.Models.Event", b =>
                 {
                     b.HasOne("EventOrganiser.Data.Models.ApplicationUser", "Host")
@@ -443,11 +493,13 @@ namespace EventOrganiser.Data.Migrations
                         .HasForeignKey("InviterId1");
                 });
 
-            modelBuilder.Entity("EventOrganiser.Data.Models.Review", b =>
+            modelBuilder.Entity("EventOrganiser.Data.Models.Reply", b =>
                 {
-                    b.HasOne("EventOrganiser.Data.Models.Event", "Event")
-                        .WithMany("Reviews")
-                        .HasForeignKey("EventId");
+                    b.HasOne("EventOrganiser.Data.Models.Comment", "Comment")
+                        .WithMany("Replies")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("EventOrganiser.Data.Models.ApplicationUser", "User")
                         .WithMany()

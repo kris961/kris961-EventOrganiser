@@ -13,11 +13,21 @@
         public void Configure(EntityTypeBuilder<Event> appEvent)
         {
             appEvent
-                .HasMany(r => r.Reviews)
+                .HasMany(r => r.Comments)
                 .WithOne(e => e.Event)
                 .HasForeignKey(e => e.EventId);
 
             appEvent.HasKey(i => i.Id);
+        }
+
+        public void Configure(EntityTypeBuilder<Comment> comment)
+        {
+            comment
+                .HasMany(r => r.Replies)
+                .WithOne(c => c.Comment)
+                .HasForeignKey(c => c.CommentId);
+
+            comment.HasKey(i => i.Id);
         }
 
         public void Configure(EntityTypeBuilder<UsersEvents> userEvent)
