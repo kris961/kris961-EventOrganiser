@@ -1,0 +1,130 @@
+﻿@model EventOrganiser.Web.ViewModels.Review.ReplyViewModel
+
+<h1>Replying to:</h1>
+
+<div class="media-body">
+    <div style="width:1110px;word-wrap:break-word" class="well well-lg">
+        <a href="/e/Users/Details?userId=@Model.ReplyComment.UserId" class="media-heading text-uppercase reviews">@Model.ReplyComment.Username </a>
+        <ul class="media-date text-uppercase reviews list-inline">
+            @{ string replyResult = string.Empty;
+                var timeSpanReply = DateTime.Now.Subtract(@Model.ReplyComment.PostedOn);
+
+                if (timeSpanReply <= TimeSpan.FromSeconds(60))
+                {
+                    replyResult = string.Format("{0} seconds ago", timeSpanReply.Seconds);
+                }
+                else if (timeSpanReply <= TimeSpan.FromMinutes(60))
+                {
+                    replyResult = timeSpanReply.Minutes > 1 ?
+                        String.Format("about {0} minutes ago", timeSpanReply.Minutes) :
+                        "about a minute ago";
+                }
+                else if (timeSpanReply <= TimeSpan.FromHours(24))
+                {
+                    replyResult = timeSpanReply.Hours > 1 ?
+                                        String.Format("about {0} hours ago", timeSpanReply.Hours) :
+                                        "about an hour ago";
+                }
+                else if (timeSpanReply <= TimeSpan.FromDays(30))
+                {
+                    replyResult = timeSpanReply.Days > 1 ?
+                                        String.Format("about {0} days ago", timeSpanReply.Days) :
+                                        "yesterday";
+                }
+                else if (timeSpanReply <= TimeSpan.FromDays(365))
+                {
+                    replyResult = timeSpanReply.Days > 30 ?
+                                        String.Format("about {0} months ago", timeSpanReply.Days / 30) :
+                                        "about a month ago";
+                }
+                else
+                {
+                    replyResult = timeSpanReply.Days > 365 ?
+                                        String.Format("about {0} years ago", timeSpanReply.Days / 365) :
+                                        "about a year ago";
+                };}
+            <li>@replyResult</li>
+        </ul>
+        <p class="media-comment">
+            @Html.Raw(@Model.ReplyComment.Messege)
+        </p>
+    </div>
+    </div>
+
+    <form method="post" asp-action="PostReply" asp-controller="Replies">
+        <input type="hidden" asp-for="@Model.CommentId" />
+        <textarea style="height:300px" asp-for="@Model.Content" class="form-control"></textarea>
+        <input type="hidden" asp-for="@Model.ReplyComment.EventId" />
+        <input style="margin-top:10px" type="submit" value="Post" class="btn btn-primary" />
+    </form>
+
+    <script type="text/javascript">
+        tinymce.init({
+            selector: "textarea",
+            plugins: [
+                "image paste table link code media"
+            ]
+        });
+    </script>
+
+    <style>
+.comments .comment-box {
+    width: 100%;
+    float: left;
+    height: 100%;
+    background-color: #FAFAFA;
+    padding: 10px 10px 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+.comments .commenter-pic {
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    border-radius: 100%;
+    border: 2px solid #fff;
+    overflow: hidden;
+    background-color: #fff;
+}
+.comments .commenter-name .comment-time {
+    font-weight: normal;
+    margin-left: 8px;
+    font-size: 15px;
+}
+.comments p.comment-txt {
+    font-size: 15px;
+    border-bottom: 1px solid #ddd;
+    padding: 0px 0px 15px;
+}
+.comments .commenter-name {
+    display: inline-block;
+    position: relative;
+    top: -20px;
+    left: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.comments .comment-meta {
+    font-size: 14px;
+    color: #333;
+    padding: 2px 5px 0px;
+    line-height: 20px;
+    float: right;
+}
+
+/*======Responsive CSS=======*/
+.comments .commenter-pic {
+    width: 40px;
+    height: 40px;
+}
+.comments .commenter-name a{
+  display: block;
+}
+.comments .commenter-name .comment-time{
+  display: block;
+  margin-left: 0px;
+}
+    </style>
+
+

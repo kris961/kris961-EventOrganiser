@@ -59,7 +59,6 @@
             var @event = new Event
             {
                 Title = input.Title,
-                Name = input.Title,
                 Description = input.Description,
                 Img = input.Img,
                 Date = input.Date,

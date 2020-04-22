@@ -1,10 +1,11 @@
 ﻿namespace EventOrganiser.Data.Models
 {
-    using EventOrganiser.Data.Common.Models;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Text;
+
+    using EventOrganiser.Data.Common.Models;
 
     public class UsersEvents
     {
