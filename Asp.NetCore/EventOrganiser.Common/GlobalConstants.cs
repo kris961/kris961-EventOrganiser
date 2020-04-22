@@ -5,9 +5,5 @@
         public const string SystemName = "EventOrganiser";
 
         public const string AdministratorRoleName = "Administrator";
-
-        public const string EmailApiKey = "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";
-
-        public const string GoogleMapsApiKey = "AIzaSyCJ9ywGcL0w-ISH3NJA-p3YtDQNl6OTTuQ";
     }
 }

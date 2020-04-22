@@ -16,7 +16,7 @@
             @if (appEvent.Entry == "InviteOnly")
             {
                 <div class="mr-3 card text-white bg-danger mb-4" style="max-width: 18rem;">
-                    <img src="@appEvent.Img" width="300" class="mr-5 card-img-top" alt="@appEvent.Title">
+                    <img src="@appEvent.Img" width="300" height="200" class="mr-5 card-img-top" alt="@appEvent.Title">
                     <div class="card-body">
                         <h5 class="card-title"><a href="@appEvent.Url">@appEvent.Title</a></h5>
                         <p class="card-text"><font color="black">@appEvent.Description</font></p>
@@ -31,7 +31,7 @@
             else if (appEvent.Entry == "Free")
             {
                 <div class="mr-3 card text-white bg-success mb-4" style="max-width: 18rem;">
-                    <img src="@appEvent.Img" width="300" class="mr-5 card-img-top" alt="@appEvent.Title">
+                    <img src="@appEvent.Img" width="300" height="200" class="mr-5 card-img-top" alt="@appEvent.Title">
                     <div class="card-body">
                         <h5 class="card-title"><a href="@appEvent.Url"><font color="black">@appEvent.Title</font></a></h5>
                         <p class="card-text"><font color="black">@appEvent.Description</font></p>
@@ -46,7 +46,7 @@
             else if (appEvent.Entry == "Payed")
             {
                 <div class="mr-3 card text-white bg-warning mb-4" style="max-width: 18rem;">
-                    <img src="@appEvent.Img" width="300" class="mr-5 card-img-top" alt="@appEvent.Title">
+                    <img src="@appEvent.Img" width="300" height="200" class="mr-5 card-img-top" alt="@appEvent.Title">
                     <div class="card-body">
                         <h5 class="card-title"><a href="@appEvent.Url"><font color="black">@appEvent.Title</font></a></h5>
                         <p class="card-text"><font color="black">@appEvent.Description</font></p>
@@ -61,7 +61,7 @@
             else if (appEvent.Entry == "Fundraiser")
             {
                 <div class="mr-3 card text-white bg-info mb-4" style="max-width: 18rem;">
-                    <img src="@appEvent.Img" width="300" class="mr-5 card-img-top" alt="@appEvent.Title">
+                    <img src="@appEvent.Img" width="300" height="200" class="mr-5 card-img-top" alt="@appEvent.Title">
                     <div class="card-body">
                         <h5 class="card-title"><a href="@appEvent.Url"><font color="black">@appEvent.Title</font></a></h5>
                         <p class="card-text"><font color="black">@appEvent.Description</font></p>

@@ -1,7 +1,10 @@
 ﻿namespace EventOrganiser.Web
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
     using System.Reflection;
-
+    using CloudinaryDotNet;
     using EventOrganiser.Common;
     using EventOrganiser.Data;
     using EventOrganiser.Data.Common;
@@ -22,9 +25,12 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
 
     public class Startup
     {
+        public List<string> Config { get; set; }
         private readonly IConfiguration configuration;
 
         public Startup(IConfiguration configuration)
@@ -67,9 +73,25 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            services.AddTransient<IEmailSender>(x => new SendGridEmailSender(GlobalConstants.EmailApiKey));
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IEventsService, EventsService>();
+
+
+            using (StreamReader r = new StreamReader(@"C:\Users\krisi\Desktop\ASP.NET Core\config.json.txt"))
+            {
+                string json = r.ReadToEnd();
+                this.Config = json.Split(',').ToList();
+            }
+
+
+            var account = new Account
+            {
+                Cloud = this.Config[3].Split(':')[1],
+                ApiKey = this.Config[2].Split(':')[1],
+                ApiSecret = this.Config[4].Split(':')[1],
+            };
+            var cloudinary = new Cloudinary(account);
+            services.AddSingleton(cloudinary);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

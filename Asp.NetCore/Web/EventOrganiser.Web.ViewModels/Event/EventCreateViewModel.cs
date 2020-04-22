@@ -5,27 +5,31 @@
     using System.ComponentModel.DataAnnotations;
     using System.Text;
 
+    using Microsoft.AspNetCore.Http;
     using EventOrganiser.Data.Models;
 
     public class EventCreateViewModel
     {
-        [Required]
-        public string Name { get; set; }
 
         [Required]
+        [MaxLength(20)]
         public string Title { get; set; }
 
         [Required]
+        [MaxLength(100)]
         public string Description { get; set; }
 
         [Required]
+        [MaxLength(50)]
         public string Location { get; set; }
 
         [Required]
         public DateTime Date { get; set; }
 
         [Required]
-        public string Img { get; set; }
+        [Display(Name = "Image")]
+        [DataType(DataType.Upload)]
+        public IFormFile Img { get; set; }
 
         [Required]
         public Entry Entry { get; set; }

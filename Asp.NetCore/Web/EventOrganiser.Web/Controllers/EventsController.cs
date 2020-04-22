@@ -4,7 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using CloudinaryDotNet;
+    using CloudinaryDotNet.Actions;
     using EventOrganiser.Data;
     using EventOrganiser.Data.Common.Repositories;
     using EventOrganiser.Data.Models;
@@ -24,19 +25,25 @@
         private readonly IDeletableEntityRepository<Event> eventRepository;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ApplicationDbContext dbContext;
+        private readonly Cloudinary cloudinary;
 
-        public EventsController(IEventsService eventsService, IDeletableEntityRepository<Event> eventRepository, UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
+        public EventsController(
+            IEventsService eventsService,
+            IDeletableEntityRepository<Event> eventRepository,
+            UserManager<ApplicationUser> userManager,
+            ApplicationDbContext dbContext,
+            Cloudinary cloudinary)
         {
             this.eventsService = eventsService;
             this.eventRepository = eventRepository;
             this.userManager = userManager;
             this.dbContext = dbContext;
+            this.cloudinary = cloudinary;
         }
 
         public IActionResult ById(string id)
         {
             var viewModel = this.eventsService.GetById<EventViewModel>(id);
-
             return this.View(viewModel);
         }
 
@@ -55,17 +62,31 @@
                 return this.View(input);
             }
 
+            using var stream = input.Img.OpenReadStream();
+
             var user = await this.userManager.GetUserAsync(this.User);
+
             var @event = new Event
             {
                 Title = input.Title,
                 Description = input.Description,
-                Img = input.Img,
                 Date = input.Date,
                 Entry = input.Entry,
                 HostId = user.Id,
                 Location = input.Location,
             };
+
+            ImageUploadParams uploadParams = new ImageUploadParams
+            {
+                Folder = "Events",
+                Transformation = new Transformation().Crop("limit").Width(800).Height(600),
+                File = new FileDescription($"{Guid.NewGuid()}_{@event.Title}", stream),
+            };
+
+            UploadResult uploadResult = await this.cloudinary.UploadAsync(uploadParams);
+            var imgUrl = uploadResult.SecureUri.AbsoluteUri;
+
+            @event.Img = imgUrl;
             UsersEvents usersEvents = new UsersEvents { Event = @event, EventId = @event.Id, User = user, UserId = user.Id };
             @event.EventsUser.Add(usersEvents);
             await this.eventRepository.AddAsync(@event);
@@ -80,6 +101,8 @@
             var @event = this.dbContext.Events.FirstOrDefault(x => x.Id == eventId);
             var user = await this.userManager.GetUserAsync(this.User);
             UsersEvents usersEvents = new UsersEvents { EventId = eventId, Event = @event, User = user, UserId = user.Id };
+            user.UsersEvent.Add(usersEvents);
+            @event.EventsUser.Add(usersEvents);
             await this.dbContext.UsersEvents.AddAsync(usersEvents);
             await this.dbContext.SaveChangesAsync();
 

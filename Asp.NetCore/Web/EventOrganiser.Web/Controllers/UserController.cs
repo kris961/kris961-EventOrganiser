@@ -25,10 +25,10 @@ namespace EventOrganiser.Web.Controllers
         {
             var user = this.dbContext.Users.FirstOrDefault(x => x.Id == userId);
             var userViewModel = new UserViewModel { Username = user.UserName, Events = new List<EventViewModel>() };
-            var events = new List<Event>(user.UsersEvent.Select(x => x.Event));
+            var events = this.dbContext.UsersEvents.Where(x => x.UserId == userId).Select(x => x.Event);
             foreach (var @event in events)
             {
-                userViewModel.Events.Add(new EventViewModel { Date = @event.Date, Description = @event.Description, Entry = @event.Entry, HostId = @event.HostId, Img = @event.Img, Location = @event.Location });
+                userViewModel.Events.Add(new EventViewModel { Date = @event.Date, Description = @event.Description, Entry = @event.Entry, HostId = @event.HostId, Img = @event.Img, Location = @event.Location, Title = @event.Title, Id = @event.Id });
             }
 
             return this.View(userViewModel);
