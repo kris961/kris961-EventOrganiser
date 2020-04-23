@@ -76,19 +76,11 @@
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IEventsService, EventsService>();
 
-
-            using (StreamReader r = new StreamReader(@"C:\Users\krisi\Desktop\ASP.NET Core\config.json.txt"))
-            {
-                string json = r.ReadToEnd();
-                this.Config = json.Split(',').ToList();
-            }
-
-
             var account = new Account
             {
-                Cloud = this.Config[3].Split(':')[1],
-                ApiKey = this.Config[2].Split(':')[1],
-                ApiSecret = this.Config[4].Split(':')[1],
+                Cloud = this.configuration["CloudinaryApiName"],
+                ApiKey = this.configuration["CloudinaryApiKey"],
+                ApiSecret = this.configuration["CloudinaryApiSecret"],
             };
             var cloudinary = new Cloudinary(account);
             services.AddSingleton(cloudinary);
