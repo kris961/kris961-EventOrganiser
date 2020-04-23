@@ -1,4 +1,8 @@
 ﻿@using EventOrganiser.Common
+@using Microsoft.AspNetCore.Identity
+@using EventOrganiser.Data.Models
+
+@inject UserManager<ApplicationUser> userManager
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,19 +61,22 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Events" asp-action="All">Events</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/e/Users/Details?userId=@userManager.GetUserId(this.User)">My Events</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    
+
     <div class="container">
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @this.RenderBody()
         </main>
     </div>
-    
+
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

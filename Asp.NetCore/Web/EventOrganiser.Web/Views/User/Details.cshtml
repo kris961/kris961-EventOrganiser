@@ -1,12 +1,16 @@
 ﻿@model EventOrganiser.Web.ViewModels.User.UserViewModel
+@using Microsoft.AspNetCore.Identity
+@using EventOrganiser.Data.Models
 
+@inject UserManager<ApplicationUser> userManager
+@{var user = await userManager.GetUserAsync(this.User);}
 <div class="container">
     <div class="row profile">
         <div class="col-md-3">
             <div class="profile-sidebar">
                 <!-- SIDEBAR USERPIC -->
                 <div class="profile-userpic">
-                    <img src="data:image/jpeg;base64,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" class="img-responsive" alt="">
+                    <img src="@user.Img" class="img-responsive" alt="">
                 </div>
                 <!-- END SIDEBAR USERPIC -->
                 <!-- SIDEBAR USER TITLE -->
@@ -28,6 +32,14 @@
                 <!-- SIDEBAR MENU -->
                 <div class="profile-usermenu">
                 </div>
+                <form method="post" asp-action="Update" asp-controller="User" asp-route-userId="@Model.Id" enctype="multipart/form-data">
+                    <label for="Image">Image</label>
+                    <div class="custom-file">
+                        <input asp-for="Img" class="custom-file-input">
+                        <label asp-for="Img" class="custom-file-label">Choose image...</label>
+                    </div>
+                    <button style="margin-top:10px" type="submit" class="btn btn-primary">Save</button>
+                </form>
                 <!-- END MENU -->
             </div>
         </div>
@@ -50,26 +62,26 @@
                 <ul class="list-group">
                     @foreach (var appevent in Model.Events)
                     {
-                    <li style="height:100px" class="list-group-item">
-                        <div class="row">
-                            <div class="col-xs-2 col-md-1">
-                                <img src="@appevent.Img" class="img-circle img-responsive" alt="" />
-                            </div>
-                            <div class="col-xs-10 col-md-11">
-                                <div>
-                                    <a asp-action="ById" asp-controller="Events" asp-route-id="@appevent.Id">
-                                        @appevent.Title
-                                    </a>
-                                    <div class="mic-info">
-                                        @appevent.Entry
+                        <li style="height:100px" class="list-group-item">
+                            <div class="row">
+                                <div class="col-xs-2 col-md-1">
+                                    <img src="@appevent.Img" class="img-circle img-responsive" alt="" />
+                                </div>
+                                <div class="col-xs-10 col-md-11">
+                                    <div>
+                                        <a asp-action="ById" asp-controller="Events" asp-route-id="@appevent.Id">
+                                            @appevent.Title
+                                        </a>
+                                        <div class="mic-info">
+                                            @appevent.Entry
+                                        </div>
+                                    </div>
+                                    <div class="comment-text">
+                                        When: @appevent.Date
                                     </div>
                                 </div>
-                                <div class="comment-text">
-                                    When: @appevent.Date
-                                </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
                     }
                 </ul>
             </div>
@@ -78,119 +90,119 @@
 </div>
 
 <style>
-        /***
+    /***
 
     A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
     Licensed under MIT
     ***/
 
-        body {
-            background: #F1F3FA;
-        }
+    body {
+        background: #F1F3FA;
+    }
 
-        /* Profile container */
-        .profile {
-            margin: 20px 0;
-        }
+    /* Profile container */
+    .profile {
+        margin: 20px 0;
+    }
 
-        /* Profile sidebar */
-        .profile-sidebar {
-            padding: 20px 0 10px 0;
-            background: #fff;
-        }
+    /* Profile sidebar */
+    .profile-sidebar {
+        padding: 20px 0 10px 0;
+        background: #fff;
+    }
 
-        .profile-userpic img {
-            float: none;
-            margin: 0 auto;
-            width: 50%;
-            height: 50%;
-            -webkit-border-radius: 50% !important;
-            -moz-border-radius: 50% !important;
-            border-radius: 50% !important;
-        }
+    .profile-userpic img {
+        float: none;
+        margin: 0 auto;
+        width: 50%;
+        height: 50%;
+        -webkit-border-radius: 50% !important;
+        -moz-border-radius: 50% !important;
+        border-radius: 50% !important;
+    }
 
-        .profile-usertitle {
-            text-align: center;
-            margin-top: 20px;
-        }
+    .profile-usertitle {
+        text-align: center;
+        margin-top: 20px;
+    }
 
-        .profile-usertitle-name {
-            color: #5a7391;
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 7px;
-        }
+    .profile-usertitle-name {
+        color: #5a7391;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 7px;
+    }
 
-        .profile-usertitle-job {
+    .profile-usertitle-job {
+        text-transform: uppercase;
+        color: #5b9bd1;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .profile-userbuttons {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+        .profile-userbuttons .btn {
             text-transform: uppercase;
-            color: #5b9bd1;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
-            margin-bottom: 15px;
+            padding: 6px 15px;
+            margin-right: 5px;
         }
 
-        .profile-userbuttons {
-            text-align: center;
-            margin-top: 10px;
-        }
-
-            .profile-userbuttons .btn {
-                text-transform: uppercase;
-                font-size: 11px;
-                font-weight: 600;
-                padding: 6px 15px;
-                margin-right: 5px;
+            .profile-userbuttons .btn:last-child {
+                margin-right: 0px;
             }
 
-                .profile-userbuttons .btn:last-child {
-                    margin-right: 0px;
-                }
+    .profile-usermenu {
+        margin-top: 30px;
+    }
 
-        .profile-usermenu {
-            margin-top: 30px;
+        .profile-usermenu ul li {
+            border-bottom: 1px solid #f0f4f7;
         }
 
-            .profile-usermenu ul li {
-                border-bottom: 1px solid #f0f4f7;
+            .profile-usermenu ul li:last-child {
+                border-bottom: none;
             }
 
-                .profile-usermenu ul li:last-child {
-                    border-bottom: none;
-                }
+            .profile-usermenu ul li a {
+                color: #93a3b5;
+                font-size: 14px;
+                font-weight: 400;
+            }
 
-                .profile-usermenu ul li a {
-                    color: #93a3b5;
+                .profile-usermenu ul li a i {
+                    margin-right: 8px;
                     font-size: 14px;
-                    font-weight: 400;
                 }
 
-                    .profile-usermenu ul li a i {
-                        margin-right: 8px;
-                        font-size: 14px;
-                    }
-
-                    .profile-usermenu ul li a:hover {
-                        background-color: #fafcfd;
-                        color: #5b9bd1;
-                    }
-
-                .profile-usermenu ul li.active {
-                    border-bottom: none;
+                .profile-usermenu ul li a:hover {
+                    background-color: #fafcfd;
+                    color: #5b9bd1;
                 }
 
-                    .profile-usermenu ul li.active a {
-                        color: #5b9bd1;
-                        background-color: #f6f9fb;
-                        border-left: 2px solid #5b9bd1;
-                        margin-left: -2px;
-                    }
+            .profile-usermenu ul li.active {
+                border-bottom: none;
+            }
 
-        /* Profile Content */
-        .profile-content {
-            padding: 20px;
-            background: #fff;
-            min-height: 460px;
-        }
+                .profile-usermenu ul li.active a {
+                    color: #5b9bd1;
+                    background-color: #f6f9fb;
+                    border-left: 2px solid #5b9bd1;
+                    margin-left: -2px;
+                }
+
+    /* Profile Content */
+    .profile-content {
+        padding: 20px;
+        background: #fff;
+        min-height: 460px;
+    }
 </style>
 
 <style>
@@ -241,4 +253,4 @@
         border-top-left-radius: 0px;
         border-top-right-radius: 0px;
     }
-    </style>
+</style>

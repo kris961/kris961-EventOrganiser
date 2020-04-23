@@ -19,6 +19,8 @@ namespace EventOrganiser.Data.Models
             this.UsersEvent = new HashSet<UsersEvents>();
         }
 
+        public string Img { get; set; }
+
         // Audit info
         public DateTime CreatedOn { get; set; }
 

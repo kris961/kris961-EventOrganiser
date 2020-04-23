@@ -5,7 +5,7 @@
     @inject UserManager<ApplicationUser> userManager
 @{string id = userManager.GetUserId(User);}
 @inject EventOrganiser.Data.ApplicationDbContext dbContext;
-@if (Model.EventsUser.Any(x => x.UserId == userManager.GetUserId(User)))
+@if (Model.EventsUser.Any(x => x.UserId == id))
 {
     if (userManager.GetUserId(User) == Model.HostId)
     {
