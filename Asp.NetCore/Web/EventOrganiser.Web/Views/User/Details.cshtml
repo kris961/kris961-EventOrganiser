@@ -5,8 +5,8 @@
 @inject UserManager<ApplicationUser> userManager
 @{var user = await userManager.GetUserAsync(this.User);}
 <div class="container">
-    <div style="margin-left:300px" class="row profile">
-        <div class="col-md-3">
+    <div style="margin-left:390px;width:300px;margin-bottom:10px">
+        <div>
             <div class="profile-sidebar">
                 <!-- SIDEBAR USERPIC -->
                 <div class="profile-userpic">
@@ -71,7 +71,7 @@
                         <li style="height:100px" class="list-group-item">
                             <div class="row">
                                 <div class="col-xs-2 col-md-1">
-                                    <img src="@appevent.Img" class="img-circle img-responsive" alt="" />
+                                    <img style="width:70px;height:70px" src="@appevent.Img" class="img-circle img-responsive" alt="" />
                                 </div>
                                 <div class="col-xs-10 col-md-11">
                                     <div>
