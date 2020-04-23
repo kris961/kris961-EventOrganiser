@@ -14,7 +14,6 @@
     using Moq;
 
     using Xunit;
-    using Task = System.Threading.Tasks.Task;
 
     public class SettingsServiceTests
     {

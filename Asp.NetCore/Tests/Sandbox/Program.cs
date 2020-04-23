@@ -18,7 +18,6 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using Task = System.Threading.Tasks.Task;
 
     public static class Program
     {

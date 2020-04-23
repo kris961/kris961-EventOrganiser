@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Identity
 @using EventOrganiser.Data.Models
 
-@inject UserManager<ApplicationUser> userManager
+    @inject UserManager<ApplicationUser> userManager
 @{string id = userManager.GetUserId(User);}
 @inject EventOrganiser.Data.ApplicationDbContext dbContext;
 @if (Model.EventsUser.Any(x => x.UserId == id))
@@ -25,33 +25,10 @@
 }
 else
 {
-    @if (Model.Entry.ToString() == "InviteOnly")
-    {
-        @if (Model.EventsUser.Any(x => x.UserId == id) && Model.HostId != id)
-        {
-            <div class="button-holder">
-                <a href="/e/RemoveUserFromEvent?eventId=@Model.Id" class="btn btn-primary btn-block text-uppercase">Leave</a>
-            </div>
-        }
-    }
-    else
-    {
-        <div class="button-holder">
-            <a href="/e/AddUserToEvent?eventId=@Model.Id" class="btn btn-primary btn-block text-uppercase">Join</a>
-        </div>
-    }
-}
-<div>
-    <div style="float:left" class="button-holder">
-        <a asp-action="Participants" asp-controller="Events" asp-route-eventId="@Model.Id" class="btn btn-primary btn-block text-uppercase">Participants</a>
+    <div class="button-holder">
+        <a href="/e/AddUserToEvent?eventId=@Model.Id" class="btn btn-primary btn-block text-uppercase">Join</a>
     </div>
-    @if (Model.Entry.ToString() == "InviteOnly" && this.userManager.GetUserId(this.User) == Model.HostId)
-    {
-        <div style="float:left" class="button-holder">
-            <a asp-action="Invite" asp-controller="Events" asp-route-eventId="@Model.Id" class="btn btn-primary btn-block text-uppercase">Invite</a>
-        </div>
-    }
-</div>
+}
 
 <div class="container">
 
@@ -102,435 +79,432 @@ else
                     </div>
 
 
-                    @foreach (var comment in Model.Comments.OrderByDescending(x => x.PostedOn))
+                    @foreach (var comment in Model.Comments.OrderByDescending(x=>x.PostedOn))
                     {
-                        <div style="width:1110px;word-wrap:break-word" class="comment-box">
+                <div style="width:1110px;word-wrap:break-word" class="comment-box">
+                    <span class="commenter-pic">
+                        <img src="/images/user-icon.jpg" class="img-fluid">
+                    </span>
+                    @{ string result = string.Empty;
+                        var timeSpan = DateTime.Now.Subtract(comment.PostedOn);
+
+                        if (timeSpan <= TimeSpan.FromSeconds(60))
+                        {
+                            result = string.Format("{0} seconds ago", timeSpan.Seconds);
+                        }
+                        else if (timeSpan <= TimeSpan.FromMinutes(60))
+                        {
+                            result = timeSpan.Minutes > 1 ?
+                                String.Format("about {0} minutes ago", timeSpan.Minutes) :
+                                "about a minute ago";
+                        }
+                        else if (timeSpan <= TimeSpan.FromHours(24))
+                        {
+                            result = timeSpan.Hours > 1 ?
+                                String.Format("about {0} hours ago", timeSpan.Hours) :
+                                "about an hour ago";
+                        }
+                        else if (timeSpan <= TimeSpan.FromDays(30))
+                        {
+                            result = timeSpan.Days > 1 ?
+                                String.Format("about {0} days ago", timeSpan.Days) :
+                                "yesterday";
+                        }
+                        else if (timeSpan <= TimeSpan.FromDays(365))
+                        {
+                            result = timeSpan.Days > 30 ?
+                                String.Format("about {0} months ago", timeSpan.Days / 30) :
+                                "about a month ago";
+                        }
+                        else
+                        {
+                            result = timeSpan.Days > 365 ?
+                                String.Format("about {0} years ago", timeSpan.Days / 365) :
+                                "about a year ago";
+                        };}
+                    @if (this.User.Identity.Name == comment.Username)
+                    {
+                        <span class="commenter-name" style="margin-top:10px">
+                            <a>@comment.Username (@comment.Replies.Count() Replies)</a> <span class="comment-time">@result</span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="commenter-name" style="margin-top:10px">
+                            <a href="/e/Users/Details?userId=@comment.UserId">@comment.Username (@comment.Replies.Count() Replies)</a> <span class="comment-time">@result</span>
+                        </span>
+                    }
+                    <p class="comment-txt more">@Html.Raw(comment.Messege)</p>
+                    <div class="comment-meta">
+                        <div id="replyBtn" class="button-holder">
+                            <a href="/e/Comment/Reply?commentid=@comment.Id" class="btn btn-primary btn-block text-uppercase">Reply</a>
+                        </div>
+                    </div>
+                    @foreach (var reply in comment.Replies)
+                    {
+                        <div style="width:1033.59px;word-wrap:break-word" class="comment-box replied">
                             <span class="commenter-pic">
                                 <img src="/images/user-icon.jpg" class="img-fluid">
                             </span>
-                            @{ string result = string.Empty;
-                                var timeSpan = DateTime.Now.Subtract(comment.PostedOn);
+                            <span class="commenter-name">
+                                @{ string replyResult = string.Empty;
+                                    var timeSpanReply = DateTime.Now.Subtract(reply.PostedOn);
 
-                                if (timeSpan <= TimeSpan.FromSeconds(60))
+                                    if (timeSpanReply <= TimeSpan.FromSeconds(60))
+                                    {
+                                        replyResult = string.Format("{0} seconds ago", timeSpanReply.Seconds);
+                                    }
+                                    else if (timeSpanReply <= TimeSpan.FromMinutes(60))
+                                    {
+                                        replyResult = timeSpanReply.Minutes > 1 ?
+                                            String.Format("about {0} minutes ago", timeSpanReply.Minutes) :
+                                            "about a minute ago";
+                                    }
+                                    else if (timeSpanReply <= TimeSpan.FromHours(24))
+                                    {
+                                        replyResult = timeSpanReply.Hours > 1 ?
+                                                            String.Format("about {0} hours ago", timeSpanReply.Hours) :
+                                                            "about an hour ago";
+                                    }
+                                    else if (timeSpanReply <= TimeSpan.FromDays(30))
+                                    {
+                                        replyResult = timeSpanReply.Days > 1 ?
+                                                            String.Format("about {0} days ago", timeSpanReply.Days) :
+                                                            "yesterday";
+                                    }
+                                    else if (timeSpanReply <= TimeSpan.FromDays(365))
+                                    {
+                                        replyResult = timeSpanReply.Days > 30 ?
+                                                            String.Format("about {0} months ago", timeSpanReply.Days / 30) :
+                                                            "about a month ago";
+                                    }
+                                    else
+                                    {
+                                        replyResult = timeSpanReply.Days > 365 ?
+                                                            String.Format("about {0} years ago", timeSpanReply.Days / 365) :
+                                                            "about a year ago";
+                                    };}
+                                @if (this.User.Identity.Name == comment.Username)
                                 {
-                                    result = string.Format("{0} seconds ago", timeSpan.Seconds);
-                                }
-                                else if (timeSpan <= TimeSpan.FromMinutes(60))
-                                {
-                                    result = timeSpan.Minutes > 1 ?
-                                        String.Format("about {0} minutes ago", timeSpan.Minutes) :
-                                        "about a minute ago";
-                                }
-                                else if (timeSpan <= TimeSpan.FromHours(24))
-                                {
-                                    result = timeSpan.Hours > 1 ?
-                                        String.Format("about {0} hours ago", timeSpan.Hours) :
-                                        "about an hour ago";
-                                }
-                                else if (timeSpan <= TimeSpan.FromDays(30))
-                                {
-                                    result = timeSpan.Days > 1 ?
-                                        String.Format("about {0} days ago", timeSpan.Days) :
-                                        "yesterday";
-                                }
-                                else if (timeSpan <= TimeSpan.FromDays(365))
-                                {
-                                    result = timeSpan.Days > 30 ?
-                                        String.Format("about {0} months ago", timeSpan.Days / 30) :
-                                        "about a month ago";
+                                    <a style="margin-top:10px">@reply.Username</a> <span class="comment-time">@replyResult</span>
                                 }
                                 else
                                 {
-                                    result = timeSpan.Days > 365 ?
-                                        String.Format("about {0} years ago", timeSpan.Days / 365) :
-                                        "about a year ago";
-                                };}
-                            @if (this.User.Identity.Name == comment.Username)
-                            {
-                                <span class="commenter-name" style="margin-top:10px">
-                                    <a>@comment.Username (@comment.Replies.Count() Replies)</a> <span class="comment-time">@result</span>
-                                </span>
-                            }
-                            else
-                            {
-                                <span class="commenter-name" style="margin-top:10px">
-                                    <a href="/e/Users/Details?userId=@comment.UserId">@comment.Username (@comment.Replies.Count() Replies)</a> <span class="comment-time">@result</span>
-                                </span>
-                            }
-                            <p class="comment-txt more">@Html.Raw(comment.Messege)</p>
-                            <div class="comment-meta">
-                                <div id="replyBtn" class="button-holder">
-                                    <a href="/e/Comment/Reply?commentid=@comment.Id" class="btn btn-primary btn-block text-uppercase">Reply</a>
-                                </div>
-                            </div>
-                            @foreach (var reply in comment.Replies)
-                            {
-                                <div style="width:1033.59px;word-wrap:break-word" class="comment-box replied">
-                                    <span class="commenter-pic">
-                                        <img src="/images/user-icon.jpg" class="img-fluid">
-                                    </span>
-                                    <span class="commenter-name">
-                                        @{ string replyResult = string.Empty;
-                                            var timeSpanReply = DateTime.Now.Subtract(reply.PostedOn);
-
-                                            if (timeSpanReply <= TimeSpan.FromSeconds(60))
-                                            {
-                                                replyResult = string.Format("{0} seconds ago", timeSpanReply.Seconds);
-                                            }
-                                            else if (timeSpanReply <= TimeSpan.FromMinutes(60))
-                                            {
-                                                replyResult = timeSpanReply.Minutes > 1 ?
-                                                    String.Format("about {0} minutes ago", timeSpanReply.Minutes) :
-                                                    "about a minute ago";
-                                            }
-                                            else if (timeSpanReply <= TimeSpan.FromHours(24))
-                                            {
-                                                replyResult = timeSpanReply.Hours > 1 ?
-                                                                    String.Format("about {0} hours ago", timeSpanReply.Hours) :
-                                                                    "about an hour ago";
-                                            }
-                                            else if (timeSpanReply <= TimeSpan.FromDays(30))
-                                            {
-                                                replyResult = timeSpanReply.Days > 1 ?
-                                                                    String.Format("about {0} days ago", timeSpanReply.Days) :
-                                                                    "yesterday";
-                                            }
-                                            else if (timeSpanReply <= TimeSpan.FromDays(365))
-                                            {
-                                                replyResult = timeSpanReply.Days > 30 ?
-                                                                    String.Format("about {0} months ago", timeSpanReply.Days / 30) :
-                                                                    "about a month ago";
-                                            }
-                                            else
-                                            {
-                                                replyResult = timeSpanReply.Days > 365 ?
-                                                                    String.Format("about {0} years ago", timeSpanReply.Days / 365) :
-                                                                    "about a year ago";
-                                            };}
-                                        @if (this.User.Identity.Name == comment.Username)
-                                        {
-                                            <a style="margin-top:10px">@reply.Username</a> <span class="comment-time">@replyResult</span>
-                                        }
-                                        else
-                                        {
-                                            <a style="margin-top:10px" href="/e/Users/Details?userId=@comment.UserId">@reply.Username</a> <span class="comment-time">@replyResult</span>
-                                        }
-                                    </span>
-                                    <p class="comment-txt more">@Html.Raw(reply.Content)</p>
-                                </div>
-                            }
+                                    <a style="margin-top:10px" href="/e/Users/Details?userId=@comment.UserId">@reply.Username</a> <span class="comment-time">@replyResult</span>
+                                }
+                            </span>
+                            <p class="comment-txt more">@Html.Raw(reply.Content)</p>
                         </div>
                     }
                 </div>
-            </div>
-        </div>
-    </div>
-</body>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </body>
 
 
 
 <style>
-
-    .comments-details button.btn.dropdown-toggle,
-    .comments-details .total-comments {
-        font-size: 18px;
-        font-weight: 500;
-        color: #5e5e5e;
-    }
-
-    .comments-details {
-        padding: 15px 15px;
-    }
-
-    .comments .comments .dropdown,
-    .comments .dropup {
-        position: relative;
-    }
-
-    .comments button {
-        background-color: transparent;
-        border: none;
-    }
-
-    .comments .comment-box {
-        width: 100%;
-        float: left;
-        height: 100%;
-        background-color: #FAFAFA;
-        padding: 10px 10px 10px;
-        margin-bottom: 15px;
-        border-radius: 5px;
-        border: 1px solid #ddd;
-    }
-
-    .comments .add-comment {
-        background-color: transparent;
-        border: none;
-        position: relative;
-        margin-bottom: 50px;
-    }
-
-    .comments .commenter-pic {
-        width: 50px;
-        height: 50px;
-        display: inline-block;
-        border-radius: 100%;
-        border: 2px solid #fff;
-        overflow: hidden;
-        background-color: #fff;
-    }
-
-    .comments .add-comment .commenter-name {
-        width: 100%;
-        padding-left: 75px;
-        position: absolute;
-        top: 20px;
-        left: 0px;
-    }
-
-    .comments .add-comment input {
-        border-top: 0px;
-        border-bottom: 1px solid #ccc;
-        border-left: 0px;
-        border-right: 0px;
-        outline: 0px;
-        box-shadow: none;
-        border-radius: 0;
-        width: 100%;
-        padding: 0;
-        font-weight: normal;
-    }
-
-        .comments .add-comment input:focus {
-            border-color: #03a9f4;
-            border-width: 2px;
-        }
-
-    .comments .add-comment button[type=submit] {
-        background-color: #03a9f4;
-        color: #fff;
-        margin-right: 0px;
-    }
-
-    .comments .add-comment button {
-        background-color: #f5f5f5;
-        margin: 10px 5px;
-        font-size: 14px;
-        text-transform: uppercase;
-        float: right;
-    }
-
-    .comments .commenter-name .comment-time {
-        font-weight: normal;
-        margin-left: 8px;
-        font-size: 15px;
-    }
-
-    .comments p.comment-txt {
-        font-size: 15px;
-        border-bottom: 1px solid #ddd;
-        padding: 0px 0px 15px;
-    }
-
-    .comments .commenter-name {
-        display: inline-block;
-        position: relative;
-        top: -20px;
-        left: 10px;
-        font-size: 16px;
-        font-weight: bold;
-    }
-
-    .comments .comment-meta {
-        font-size: 14px;
-        color: #333;
-        padding: 2px 5px 0px;
-        line-height: 20px;
-        float: right;
-    }
-
-    .comments .reply-box {
-        display: none;
-    }
-
-    .comments .replied {
-        background-color: #fff;
-        width: 95%;
-        float: right;
-        margin-top: 15px;
-    }
-
-    /*======Responsive CSS=======*/
-    .comments .commenter-pic {
-        width: 40px;
-        height: 40px;
-    }
-
-    .comments .commenter-name a {
-        display: block;
-    }
-
-    .comments .commenter-name .comment-time {
-        display: block;
-        margin-left: 0px;
-    }
-    }
-</style>
-
-<script>
-    // Reply box popup JS
-    $(document).ready(function () {
-        $(".reply-popup").click(function () {
-            $(".reply-box").toggle();
-        });
-    });
-</script>
-
-<style>
-
-    body {
-        background: #fafafa;
-    }
-
-    .widget-area.blank {
-        background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
-        -webkit-box-shadow: none;
-        -moz-box-shadow: none;
-        -ms-box-shadow: none;
-        -o-box-shadow: none;
-        box-shadow: none;
-    }
-
-    body .no-padding {
-        padding: 0;
-    }
-
-    .widget-area {
-        background-color: #fff;
-        -webkit-border-radius: 4px;
-        -moz-border-radius: 4px;
-        -ms-border-radius: 4px;
-        -o-border-radius: 4px;
-        border-radius: 4px;
-        -webkit-box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
-        -moz-box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
-        -ms-box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
-        -o-box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
-        box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
-        float: left;
-        margin-top: 30px;
-        padding: 25px 30px;
-        position: relative;
-        width: 100%;
-    }
-
-    .status-upload {
-        background: none repeat scroll 0 0 #f5f5f5;
-        -webkit-border-radius: 4px;
-        -moz-border-radius: 4px;
-        -ms-border-radius: 4px;
-        -o-border-radius: 4px;
-        border-radius: 4px;
-        float: left;
-        width: 100%;
-    }
-
-        .status-upload form {
-            float: left;
-            width: 100%;
-        }
-
-            .status-upload form textarea {
-                background: none repeat scroll 0 0 #fff;
-                border: medium none;
-                -webkit-border-radius: 4px 4px 0 0;
-                -moz-border-radius: 4px 4px 0 0;
-                -ms-border-radius: 4px 4px 0 0;
-                -o-border-radius: 4px 4px 0 0;
-                border-radius: 4px 4px 0 0;
-                color: #777777;
-                float: left;
-                font-family: Lato;
-                font-size: 14px;
-                height: 142px;
-                letter-spacing: 0.3px;
-                padding: 20px;
-                width: 1100px;
-                resize: vertical;
-                outline: none;
-                border: 1px solid #F2F2F2;
-            }
-
-        .status-upload ul {
-            float: left;
-            list-style: none outside none;
-            margin: 0;
-            padding: 0 0 0 15px;
-            width: auto;
-        }
-
-            .status-upload ul > li {
-                float: left;
-            }
-
-                .status-upload ul > li > a {
-                    -webkit-border-radius: 4px;
-                    -moz-border-radius: 4px;
-                    -ms-border-radius: 4px;
-                    -o-border-radius: 4px;
-                    border-radius: 4px;
-                    color: #777777;
-                    float: left;
-                    font-size: 14px;
-                    height: 30px;
-                    line-height: 30px;
-                    margin: 10px 0 10px 10px;
-                    text-align: center;
-                    -webkit-transition: all 0.4s ease 0s;
-                    -moz-transition: all 0.4s ease 0s;
-                    -ms-transition: all 0.4s ease 0s;
-                    -o-transition: all 0.4s ease 0s;
-                    transition: all 0.4s ease 0s;
-                    width: 300x;
-                    cursor: pointer;
-                }
-
-                    .status-upload ul > li > a:hover {
-                        background: none repeat scroll 0 0 #606060;
-                        color: #fff;
+                    .comments-details button.btn.dropdown-toggle,
+                    .comments-details .total-comments {
+                        font-size: 18px;
+                        font-weight: 500;
+                        color: #5e5e5e;
                     }
 
-        .status-upload form button {
-            border: medium none;
-            -webkit-border-radius: 4px;
-            -moz-border-radius: 4px;
-            -ms-border-radius: 4px;
-            -o-border-radius: 4px;
-            border-radius: 4px;
-            color: #fff;
-            float: right;
-            font-family: Lato;
-            font-size: 14px;
-            letter-spacing: 0.3px;
-            margin-right: 9px;
-            margin-top: 9px;
-            padding: 6px 15px;
-        }
+                    .comments-details {
+                        padding: 15px 15px;
+                    }
 
-    .dropdown > a > span.green:before {
-        border-left-color: #2dcb73;
-    }
+                    .comments .comments .dropdown,
+                    .comments .dropup {
+                        position: relative;
+                    }
 
-    .status-upload form button > i {
-        margin-right: 7px;
-    }
-</style>
+                    .comments button {
+                        background-color: transparent;
+                        border: none;
+                    }
+
+                    .comments .comment-box {
+                        width: 100%;
+                        float: left;
+                        height: 100%;
+                        background-color: #FAFAFA;
+                        padding: 10px 10px 10px;
+                        margin-bottom: 15px;
+                        border-radius: 5px;
+                        border: 1px solid #ddd;
+                    }
+
+                    .comments .add-comment {
+                        background-color: transparent;
+                        border: none;
+                        position: relative;
+                        margin-bottom: 50px;
+                    }
+
+                    .comments .commenter-pic {
+                        width: 50px;
+                        height: 50px;
+                        display: inline-block;
+                        border-radius: 100%;
+                        border: 2px solid #fff;
+                        overflow: hidden;
+                        background-color: #fff;
+                    }
+
+                    .comments .add-comment .commenter-name {
+                        width: 100%;
+                        padding-left: 75px;
+                        position: absolute;
+                        top: 20px;
+                        left: 0px;
+                    }
+
+                    .comments .add-comment input {
+                        border-top: 0px;
+                        border-bottom: 1px solid #ccc;
+                        border-left: 0px;
+                        border-right: 0px;
+                        outline: 0px;
+                        box-shadow: none;
+                        border-radius: 0;
+                        width: 100%;
+                        padding: 0;
+                        font-weight: normal;
+                    }
+
+                        .comments .add-comment input:focus {
+                            border-color: #03a9f4;
+                            border-width: 2px;
+                        }
+
+                    .comments .add-comment button[type=submit] {
+                        background-color: #03a9f4;
+                        color: #fff;
+                        margin-right: 0px;
+                    }
+
+                    .comments .add-comment button {
+                        background-color: #f5f5f5;
+                        margin: 10px 5px;
+                        font-size: 14px;
+                        text-transform: uppercase;
+                        float: right;
+                    }
+
+                    .comments .commenter-name .comment-time {
+                        font-weight: normal;
+                        margin-left: 8px;
+                        font-size: 15px;
+                    }
+
+                    .comments p.comment-txt {
+                        font-size: 15px;
+                        border-bottom: 1px solid #ddd;
+                        padding: 0px 0px 15px;
+                    }
+
+                    .comments .commenter-name {
+                        display: inline-block;
+                        position: relative;
+                        top: -20px;
+                        left: 10px;
+                        font-size: 16px;
+                        font-weight: bold;
+                    }
+
+                    .comments .comment-meta {
+                        font-size: 14px;
+                        color: #333;
+                        padding: 2px 5px 0px;
+                        line-height: 20px;
+                        float: right;
+                    }
+
+                    .comments .reply-box {
+                        display: none;
+                    }
+
+                    .comments .replied {
+                        background-color: #fff;
+                        width: 95%;
+                        float: right;
+                        margin-top: 15px;
+                    }
+
+                    /*======Responsive CSS=======*/
+                    .comments .commenter-pic {
+                        width: 40px;
+                        height: 40px;
+                    }
+
+                    .comments .commenter-name a {
+                        display: block;
+                    }
+
+                    .comments .commenter-name .comment-time {
+                        display: block;
+                        margin-left: 0px;
+                    }
+                    }
+                </style>
+
+<script>
+                    // Reply box popup JS
+                    $(document).ready(function () {
+                        $(".reply-popup").click(function () {
+                            $(".reply-box").toggle();
+                        });
+                    });
+                </script>
 
 <style>
+                                    body {
+                                        background: #fafafa;
+                                    }
 
-    #EditBtn {
-        margin-right: 3px;
-        float: right;
-    }
-</style>
+                                    .widget-area.blank {
+                                        background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+                                        -webkit-box-shadow: none;
+                                        -moz-box-shadow: none;
+                                        -ms-box-shadow: none;
+                                        -o-box-shadow: none;
+                                        box-shadow: none;
+                                    }
+
+                                    body .no-padding {
+                                        padding: 0;
+                                    }
+
+                                    .widget-area {
+                                        background-color: #fff;
+                                        -webkit-border-radius: 4px;
+                                        -moz-border-radius: 4px;
+                                        -ms-border-radius: 4px;
+                                        -o-border-radius: 4px;
+                                        border-radius: 4px;
+                                        -webkit-box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
+                                        -moz-box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
+                                        -ms-box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
+                                        -o-box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
+                                        box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
+                                        float: left;
+                                        margin-top: 30px;
+                                        padding: 25px 30px;
+                                        position: relative;
+                                        width: 100%;
+                                    }
+
+                                    .status-upload {
+                                        background: none repeat scroll 0 0 #f5f5f5;
+                                        -webkit-border-radius: 4px;
+                                        -moz-border-radius: 4px;
+                                        -ms-border-radius: 4px;
+                                        -o-border-radius: 4px;
+                                        border-radius: 4px;
+                                        float: left;
+                                        width: 100%;
+                                    }
+
+                                        .status-upload form {
+                                            float: left;
+                                            width: 100%;
+                                        }
+
+                                            .status-upload form textarea {
+                                                background: none repeat scroll 0 0 #fff;
+                                                border: medium none;
+                                                -webkit-border-radius: 4px 4px 0 0;
+                                                -moz-border-radius: 4px 4px 0 0;
+                                                -ms-border-radius: 4px 4px 0 0;
+                                                -o-border-radius: 4px 4px 0 0;
+                                                border-radius: 4px 4px 0 0;
+                                                color: #777777;
+                                                float: left;
+                                                font-family: Lato;
+                                                font-size: 14px;
+                                                height: 142px;
+                                                letter-spacing: 0.3px;
+                                                padding: 20px;
+                                                width: 1100px;
+                                                resize: vertical;
+                                                outline: none;
+                                                border: 1px solid #F2F2F2;
+                                            }
+
+                                        .status-upload ul {
+                                            float: left;
+                                            list-style: none outside none;
+                                            margin: 0;
+                                            padding: 0 0 0 15px;
+                                            width: auto;
+                                        }
+
+                                            .status-upload ul > li {
+                                                float: left;
+                                            }
+
+                                                .status-upload ul > li > a {
+                                                    -webkit-border-radius: 4px;
+                                                    -moz-border-radius: 4px;
+                                                    -ms-border-radius: 4px;
+                                                    -o-border-radius: 4px;
+                                                    border-radius: 4px;
+                                                    color: #777777;
+                                                    float: left;
+                                                    font-size: 14px;
+                                                    height: 30px;
+                                                    line-height: 30px;
+                                                    margin: 10px 0 10px 10px;
+                                                    text-align: center;
+                                                    -webkit-transition: all 0.4s ease 0s;
+                                                    -moz-transition: all 0.4s ease 0s;
+                                                    -ms-transition: all 0.4s ease 0s;
+                                                    -o-transition: all 0.4s ease 0s;
+                                                    transition: all 0.4s ease 0s;
+                                                    width: 300x;
+                                                    cursor: pointer;
+                                                }
+
+                                                    .status-upload ul > li > a:hover {
+                                                        background: none repeat scroll 0 0 #606060;
+                                                        color: #fff;
+                                                    }
+
+                                        .status-upload form button {
+                                            border: medium none;
+                                            -webkit-border-radius: 4px;
+                                            -moz-border-radius: 4px;
+                                            -ms-border-radius: 4px;
+                                            -o-border-radius: 4px;
+                                            border-radius: 4px;
+                                            color: #fff;
+                                            float: right;
+                                            font-family: Lato;
+                                            font-size: 14px;
+                                            letter-spacing: 0.3px;
+                                            margin-right: 9px;
+                                            margin-top: 9px;
+                                            padding: 6px 15px;
+                                        }
+
+                                    .dropdown > a > span.green:before {
+                                        border-left-color: #2dcb73;
+                                    }
+
+                                    .status-upload form button > i {
+                                        margin-right: 7px;
+                                    }
+                                </style>
+
+<style>
+                                    #EditBtn {
+                                        margin-right: 3px;
+                                        float: right;
+                                    }
+                                </style>
 

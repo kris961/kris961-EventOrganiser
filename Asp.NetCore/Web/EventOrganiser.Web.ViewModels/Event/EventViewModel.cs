@@ -33,7 +33,5 @@
         public string HostId { get; set; }
 
         public string Comment { get; set; }
-
-        public ICollection<Task> Tasks { get; set; }
     }
 }

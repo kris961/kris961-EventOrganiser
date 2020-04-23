@@ -7,7 +7,6 @@
     using EventOrganiser.Data.Common.Repositories;
     using EventOrganiser.Data.Models;
     using EventOrganiser.Services.Mapping;
-    using EventOrganiser.Web.ViewModels.Event;
 
     public class EventsService : IEventsService
     {
@@ -36,19 +35,6 @@
             var appevent = this.eventRepository.All().Where(x => x.Id == id).Where(x => x.IsDeleted == false)
                 .To<T>().FirstOrDefault();
             return appevent;
-        }
-
-        public Event Join(EventCreateViewModel input)
-        {
-            var @event = new Event
-            {
-                Title = input.Title,
-                Description = input.Description,
-                Date = input.Date,
-                Entry = input.Entry,
-                Location = input.Location,
-            };
-            return @event;
         }
     }
 }

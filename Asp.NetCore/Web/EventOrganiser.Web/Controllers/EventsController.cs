@@ -65,8 +65,16 @@
             using var stream = input.Img.OpenReadStream();
 
             var user = await this.userManager.GetUserAsync(this.User);
-            var @event = this.eventsService.Join(input);
-            @event.HostId = user.Id;
+
+            var @event = new Event
+            {
+                Title = input.Title,
+                Description = input.Description,
+                Date = input.Date,
+                Entry = input.Entry,
+                HostId = user.Id,
+                Location = input.Location,
+            };
 
             ImageUploadParams uploadParams = new ImageUploadParams
             {
@@ -90,7 +98,7 @@
         [HttpGet("/e/AddUserToEvent")]
         public async Task<IActionResult> Join(string eventId)
         {
-            var @event = this.eventsService.GetById<Event>(eventId);
+            var @event = this.dbContext.Events.FirstOrDefault(x => x.Id == eventId);
             var user = await this.userManager.GetUserAsync(this.User);
             UsersEvents usersEvents = new UsersEvents { EventId = eventId, Event = @event, User = user, UserId = user.Id };
             user.UsersEvent.Add(usersEvents);
@@ -148,24 +156,6 @@
                 this.eventsService.GetAll<SingleEventViewModel>(),
             };
             return this.View(viewModel);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Participants(string eventId)
-        {
-            var user = await this.userManager.GetUserAsync(this.User);
-            var @event = this.dbContext.Events.FirstOrDefault(x => x.Id == eventId);
-            UsersEvents[] usersEvents = this.dbContext.UsersEvents.Where(x => x.EventId == eventId).ToArray();
-            EventViewModel eventViewModel = new EventViewModel { EventsUser = usersEvents };
-            foreach (var item in eventViewModel.EventsUser)
-            {
-                if (user.Id != item.UserId)
-                {
-                    item.User = this.dbContext.Users.FirstOrDefault(x => x.Id == item.UserId);
-                }
-            }
-
-            return this.View(eventViewModel);
         }
     }
 }

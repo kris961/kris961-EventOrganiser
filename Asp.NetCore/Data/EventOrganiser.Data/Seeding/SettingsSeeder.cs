@@ -5,7 +5,6 @@
     using System.Threading.Tasks;
 
     using EventOrganiser.Data.Models;
-    using Task = System.Threading.Tasks.Task;
 
     internal class SettingsSeeder : ISeeder
     {

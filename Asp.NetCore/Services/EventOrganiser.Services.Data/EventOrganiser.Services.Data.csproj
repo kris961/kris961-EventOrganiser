@@ -21,7 +21,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\EventOrganiser.Data.Common\EventOrganiser.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\EventOrganiser.Data.Models\EventOrganiser.Data.Models.csproj" />
-    <ProjectReference Include="..\..\Web\EventOrganiser.Web.ViewModels\EventOrganiser.Web.ViewModels.csproj" />
     <ProjectReference Include="..\EventOrganiser.Services.Mapping\EventOrganiser.Services.Mapping.csproj" />
   </ItemGroup>
 
