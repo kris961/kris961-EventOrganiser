@@ -27,6 +27,7 @@
     using Microsoft.Extensions.Hosting;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using SignalRChat.Hubs;
 
     public class Startup
     {
@@ -84,6 +85,7 @@
             };
             var cloudinary = new Cloudinary(account);
             services.AddSingleton(cloudinary);
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -132,6 +134,7 @@
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("eventDetails", "e/{Id}", new { controller = "Events", action = "ById" });
                         endpoints.MapRazorPages();
+                        endpoints.MapHub<ChatHub>("/chatHub");
                     });
         }
     }

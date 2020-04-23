@@ -9,6 +9,7 @@
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
+    using Task = System.Threading.Tasks.Task;
 
     internal class RolesSeeder : ISeeder
     {

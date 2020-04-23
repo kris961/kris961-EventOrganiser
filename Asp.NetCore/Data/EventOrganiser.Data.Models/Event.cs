@@ -17,6 +17,8 @@
             this.Invites = new HashSet<Invite>();
 
             this.Comments = new HashSet<Comment>();
+
+            this.Tasks = new HashSet<Task>();
         }
 
         public string Title { get; set; }
@@ -40,5 +42,7 @@
         public string HostId { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
+
+        public ICollection<Task> Tasks { get; set; }
     }
 }

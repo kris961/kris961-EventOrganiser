@@ -11,6 +11,7 @@
 
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using Task = Models.Task;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
@@ -35,6 +36,8 @@
         public DbSet<UsersEvents> UsersEvents { get; set; }
 
         public DbSet<Reply> Replies { get; set; }
+
+        public DbSet<Task> Tasks { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
@@ -61,6 +64,7 @@
             base.OnModelCreating(builder);
 
             builder.Entity<UsersEvents>().HasKey(ck => new { ck.UserId, ck.EventId });
+
 
             this.ConfigureUserIdentityRelations(builder);
 

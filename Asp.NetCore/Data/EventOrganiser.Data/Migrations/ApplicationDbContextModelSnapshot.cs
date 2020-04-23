@@ -347,6 +347,31 @@ namespace EventOrganiser.Data.Migrations
                     b.ToTable("Settings");
                 });
 
+            modelBuilder.Entity("EventOrganiser.Data.Models.Task", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("EventId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Job")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Tasks");
+                });
+
             modelBuilder.Entity("EventOrganiser.Data.Models.UsersEvents", b =>
                 {
                     b.Property<string>("UserId")
@@ -506,6 +531,17 @@ namespace EventOrganiser.Data.Migrations
                         .HasForeignKey("CommentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("EventOrganiser.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("EventOrganiser.Data.Models.Task", b =>
+                {
+                    b.HasOne("EventOrganiser.Data.Models.Event", "Event")
+                        .WithMany("Tasks")
+                        .HasForeignKey("EventId");
 
                     b.HasOne("EventOrganiser.Data.Models.ApplicationUser", "User")
                         .WithMany()

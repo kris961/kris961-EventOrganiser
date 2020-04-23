@@ -19,8 +19,16 @@
 
             appEvent.HasKey(i => i.Id);
         }
+        public void Configure(EntityTypeBuilder<Task> task)
+        {
+            task.HasOne(x => x.Event)
+                .WithMany(e => e.Tasks)
+                .HasForeignKey(x => x.EventId);
 
-        public void Configure(EntityTypeBuilder<Comment> comment)
+            task.HasKey(x => x.Id);
+        }
+
+            public void Configure(EntityTypeBuilder<Comment> comment)
         {
             comment
                 .HasMany(r => r.Replies)
