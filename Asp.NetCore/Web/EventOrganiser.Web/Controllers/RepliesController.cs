@@ -54,18 +54,20 @@ namespace EventOrganiser.Web.Controllers
         {
             try
             {
-                if (!this.ModelState.IsValid)
+            if (!this.ModelState.IsValid)
                 {
                     return this.View("Reply", replyView);
                 }
-                if (replyView == null)
+
+            if (replyView == null)
              {
                     return this.RedirectToAction("All");
              }
 
             var user = await this.userManager.GetUserAsync(this.User);
-            var reply = new Reply { PostedOn=DateTime.Now, Username = user.UserName, CommentId = replyView.CommentId, Content = replyView.Content, UserId = replyView.UserId };
+            var reply = new Reply {PostedOn=DateTime.Now, Username = user.UserName, CommentId = replyView.CommentId, Content = replyView.Content, UserId = replyView.UserId };
             var comment = this.dbContext.Comments.FirstOrDefault(x => x.Id == reply.CommentId);
+            reply.UserId = user.Id;
             await this.replyRepository.AddAsync(reply);
             await this.replyRepository.SaveChangesAsync();
             return this.RedirectToAction("ById", "Events", new { Id = comment.EventId });

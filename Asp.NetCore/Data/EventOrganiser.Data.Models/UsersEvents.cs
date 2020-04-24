@@ -9,12 +9,14 @@
 
     public class UsersEvents
     {
+        [Required]
         public Event Event { get; set; }
 
         public string EventId { get; set; }
 
         public ApplicationUser User { get; set; }
 
+        [Required]
         public string UserId { get; set; }
     }
 }
