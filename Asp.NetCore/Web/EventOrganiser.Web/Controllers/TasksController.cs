@@ -2,6 +2,7 @@
 using EventOrganiser.Data.Models;
 using EventOrganiser.Services.Data;
 using EventOrganiser.Web.ViewModels.Event;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Logging;
@@ -25,6 +26,7 @@ namespace EventOrganiser.Web.Controllers
             this.dbContext = dbContext;
         }
 
+        [Authorize][Authorize]
         public IActionResult Participants(string eventId)
         {
             var @event = this.dbContext.Events.FirstOrDefault(x => x.Id == eventId);
@@ -40,6 +42,7 @@ namespace EventOrganiser.Web.Controllers
             return this.View(eventViewModel);
         }
 
+        [Authorize]
         [HttpGet("/e/AddTask")]
         public IActionResult Create(string taskParams)
         {
@@ -48,6 +51,7 @@ namespace EventOrganiser.Web.Controllers
             return this.View(task);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateTask(UserTask task)
         {
