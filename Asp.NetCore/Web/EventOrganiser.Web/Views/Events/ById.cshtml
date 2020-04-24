@@ -4,7 +4,6 @@
 
 @inject UserManager<ApplicationUser> userManager
 @{string id = userManager.GetUserId(User);}
-@inject EventOrganiser.Data.ApplicationDbContext dbContext;
 @if (Model.EventsUser.Any(x => x.UserId == id))
 {
     if (userManager.GetUserId(User) == Model.HostId)
@@ -86,7 +85,7 @@ else
                     {
                 <div style="width:1110px;word-wrap:break-word" class="comment-box">
                     <span class="commenter-pic">
-                        <img src="@comment.Img" class="img-fluid">
+                        <img src="" class="img-fluid">
                     </span>
                     @{ string result = string.Empty;
                         var timeSpan = DateTime.Now.Subtract(comment.PostedOn);
@@ -147,7 +146,7 @@ else
                     {
                         <div style="width:1033.59px;word-wrap:break-word" class="comment-box replied">
                             <span class="commenter-pic">
-                                <img src="/images/user-icon.jpg" class="img-fluid">
+                                <img src="" class="img-fluid">
                             </span>
                             <span class="commenter-name">
                                 @{ string replyResult = string.Empty;
