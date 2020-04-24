@@ -5,6 +5,7 @@ using EventOrganiser.Data.Common.Repositories;
 using EventOrganiser.Data.Models;
 using EventOrganiser.Web.ViewModels.Event;
 using EventOrganiser.Web.ViewModels.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -27,6 +28,7 @@ namespace EventOrganiser.Web.Controllers
             this.cloudinary = cloudinary;
         }
 
+        [Authorize]
         [HttpGet("/e/Users/Details")]
         public IActionResult Details(string userId)
         {
@@ -41,6 +43,7 @@ namespace EventOrganiser.Web.Controllers
             return this.View(userViewModel);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Update(UserViewModel input)
         {

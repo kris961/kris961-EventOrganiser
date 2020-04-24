@@ -23,7 +23,12 @@
 
         public IActionResult Index()
         {
-            return this.View();
+            var viewModel = new AllViewModel
+            {
+                Events =
+                this.eventsService.GetAll<SingleEventViewModel>(5),
+            };
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()

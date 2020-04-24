@@ -8,6 +8,8 @@ namespace EventOrganiser.Web.ViewModels.Review
 {
     public class ReplyViewModel : IMapFrom<Reply>
     {
+        public string Img { get; set; }
+
         public int Id { get; set; }
 
         public string Username { get; set; }

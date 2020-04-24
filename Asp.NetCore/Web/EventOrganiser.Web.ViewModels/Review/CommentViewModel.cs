@@ -9,6 +9,8 @@ namespace EventOrganiser.Web.ViewModels.Review
 {
     public class CommentViewModel : IMapFrom<Comment>
     {
+        public string Img { get; set; }
+
         public int Id { get; set; }
 
         public DateTime PostedOn { get; set; }

@@ -20,7 +20,7 @@
         public IEnumerable<T> GetAll<T>(int? count = null)
         {
            IQueryable<Event> query = this.eventRepository
-                .All().OrderBy(x => x.Date).Take(10);
+                .All().OrderBy(x => x.EventsUser.Count()).Take(10);
 
            if (count.HasValue)
             {

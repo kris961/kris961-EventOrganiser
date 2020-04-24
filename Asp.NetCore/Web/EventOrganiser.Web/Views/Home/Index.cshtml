@@ -1,5 +1,81 @@
-﻿@using EventOrganiser.Common
-@model EventOrganiser.Web.ViewModels.Home.AllViewModel
+﻿@model EventOrganiser.Web.ViewModels.Home.AllViewModel
+@using EventOrganiser.Common
 @{
     this.ViewData["Title"] = $"Welcome to {GlobalConstants.SystemName!}";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">@this.ViewData["Title"]</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+@if (User.Identity.Name != null)
+{
+    <h1 style=" text-align:center">Most Popular Events:</h1>
+    <div class="card-columns">
+        @foreach (var appEvent in Model.Events.Take(5))
+        {
+            @if (appEvent.Entry == "InviteOnly")
+            {
+                <div class="mr-3 card text-white bg-danger mb-4" style="max-width: 18rem;">
+                    <img src="@appEvent.Img" width="300" height="200" class="mr-5 card-img-top" alt="@appEvent.Title">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="@appEvent.Url">@appEvent.Title</a></h5>
+                        <p class="card-text"><font color="black">@appEvent.Description</font></p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><font color="black">Time: @appEvent.DateTime</font></li>
+                        <li class="list-group-item"><font color="black">Location: @appEvent.Location</font></li>
+                    </ul>
+                </div>
+            }
+            else if (appEvent.Entry == "Free")
+            {
+                <div class="mr-3 card text-white bg-success mb-4" style="max-width: 18rem;">
+                    <img src="@appEvent.Img" width="300" height="200" class="mr-5 card-img-top" alt="@appEvent.Title">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="@appEvent.Url"><font color="black">@appEvent.Title</font></a></h5>
+                        <p class="card-text"><font color="black">@appEvent.Description</font></p>
+                        <a href="#" class="btn btn-primary">More Info</a>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><font color="black">Time: @appEvent.DateTime</font></li>
+                        <li class="list-group-item"><font color="black">Location: @appEvent.Location</font></li>
+                    </ul>
+                </div>
+            }
+            else if (appEvent.Entry == "Payed")
+            {
+                <div class="mr-3 card text-white bg-warning mb-4" style="max-width: 18rem;">
+                    <img src="@appEvent.Img" width="300" height="200" class="mr-5 card-img-top" alt="@appEvent.Title">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="@appEvent.Url"><font color="black">@appEvent.Title</font></a></h5>
+                        <p class="card-text"><font color="black">@appEvent.Description</font></p>
+                        <a href="#" class="btn btn-primary">More Info</a>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><font color="black">Time: @appEvent.DateTime</font></li>
+                        <li class="list-group-item"><font color="black">Location: @appEvent.Location</font></li>
+                    </ul>
+                </div>
+            }
+            else if (appEvent.Entry == "Fundraiser")
+            {
+                <div class="mr-3 card text-white bg-info mb-4" style="max-width: 18rem;">
+                    <img src="@appEvent.Img" width="300" height="200" class="mr-5 card-img-top" alt="@appEvent.Title">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="@appEvent.Url"><font color="black">@appEvent.Title</font></a></h5>
+                        <p class="card-text"><font color="black">@appEvent.Description</font></p>
+                        <a href="#" class="btn btn-primary">More Info</a>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><font color="black">Time: @appEvent.DateTime</font></li>
+                        <li class="list-group-item"><font color="black">Location: @appEvent.Location</font></li>
+                    </ul>
+                </div>
+            }
+        }
+    </div>
 }

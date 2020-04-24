@@ -41,6 +41,7 @@
             this.cloudinary = cloudinary;
         }
 
+        [Authorize]
         public IActionResult ById(string id)
         {
             var viewModel = this.eventsService.GetById<EventViewModel>(id);
@@ -98,11 +99,10 @@
         [HttpGet("/e/AddUserToEvent")]
         public async Task<IActionResult> Join(string eventId)
         {
-            var @event = this.dbContext.Events.FirstOrDefault(x => x.Id == eventId);
+            var @event = this.eventsService.GetById<Event>(eventId);
             var user = await this.userManager.GetUserAsync(this.User);
             UsersEvents usersEvents = new UsersEvents { EventId = eventId, Event = @event, User = user, UserId = user.Id };
-            user.UsersEvent.Add(usersEvents);
-            @event.EventsUser.Add(usersEvents);
+
             await this.dbContext.UsersEvents.AddAsync(usersEvents);
             await this.dbContext.SaveChangesAsync();
 
@@ -121,6 +121,7 @@
             return this.RedirectToAction("ById", new { Id = eventId });
         }
 
+        [Authorize]
         [HttpGet("/e/EditEvent")]
         public IActionResult Edit(string eventId)
         {
@@ -128,6 +129,7 @@
             return this.View(@event);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult EditEvent(Event @event)
         {
@@ -138,6 +140,7 @@
             return this.RedirectToAction("All");
         }
 
+        [Authorize]
         [HttpGet("/e/DeleteEvent")]
         public async Task<IActionResult> Delete(string eventId)
         {
@@ -148,6 +151,7 @@
             return this.RedirectToAction("All");
         }
 
+        [Authorize]
         public IActionResult All()
         {
             var viewModel = new AllViewModel
