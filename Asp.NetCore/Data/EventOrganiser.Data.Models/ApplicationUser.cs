@@ -17,6 +17,7 @@ namespace EventOrganiser.Data.Models
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
             this.UsersEvent = new HashSet<UsersEvents>();
+            this.Tasks = new HashSet<UserTask>();
         }
 
         public string Img { get; set; }
@@ -40,6 +41,8 @@ namespace EventOrganiser.Data.Models
         public ICollection<UsersEvents> UsersEvent { get; set; }
 
         public ICollection<Event> OrganisedEvents { get; set; }
+
+        public ICollection<UserTask> Tasks { get; set; }
 
         public string GetUserId()
         {

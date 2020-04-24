@@ -11,16 +11,16 @@
     public class EventCreateViewModel
     {
 
-        [Required]
-        [MaxLength(20)]
+        [Required(ErrorMessage = "The title must be between 3 nad 20 symbols")]
+        [MaxLength(20), MinLength(3)]
         public string Title { get; set; }
 
-        [Required]
-        [MaxLength(100)]
+        [Required(ErrorMessage = "The description must be between 3 nad 100 symbols")]
+        [MaxLength(100), MinLength(3)]
         public string Description { get; set; }
 
-        [Required]
-        [MaxLength(50)]
+        [Required(ErrorMessage = "The location must be between 3 nad 50 symbols")]
+        [MaxLength(50), MinLength(3)]
         public string Location { get; set; }
 
         [Required]

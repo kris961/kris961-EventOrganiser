@@ -126,7 +126,7 @@
         {
             try
             {
-            var @event = this.eventsService.GetById<Event>(eventId);
+            var @event = this.dbContext.Events.FirstOrDefault(x => x.Id == eventId);
             if (@event == null)
                 {
                     return this.RedirectToAction("All");
@@ -196,7 +196,11 @@
         {
             try
             {
-            if (@event == null)
+                if (!this.ModelState.IsValid)
+                {
+                    return this.View("Edit", @event);
+                }
+                if (@event == null)
                 {
                     return this.RedirectToAction("All");
                 }

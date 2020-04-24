@@ -2,6 +2,7 @@
 using EventOrganiser.Services.Mapping;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace EventOrganiser.Web.ViewModels.Review
@@ -18,6 +19,8 @@ namespace EventOrganiser.Web.ViewModels.Review
 
         public int CommentId { get; set; }
 
+        [Required(ErrorMessage = "The reply must be between 3 nad 100 symbols")]
+        [MaxLength(100), MinLength(3)]
         public string Content { get; set; }
 
         public string UserId { get; set; }

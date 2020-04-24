@@ -3,6 +3,7 @@ using EventOrganiser.Services.Mapping;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace EventOrganiser.Web.ViewModels.Review
@@ -23,6 +24,8 @@ namespace EventOrganiser.Web.ViewModels.Review
 
         public string EventId { get; set; }
 
+        [Required(ErrorMessage = "The comment must be between 3 nad 1300 symbols")]
+        [MaxLength(300), MinLength(3)]
         public string Messege { get; set; }
 
         public ICollection<ReplyViewModel> Replies { get; set; }

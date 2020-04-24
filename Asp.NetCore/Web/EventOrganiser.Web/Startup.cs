@@ -75,6 +75,7 @@
             // Application services
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IEventsService, EventsService>();
+            services.AddTransient<IUsersService, UsersService>();
 
             var account = new Account
             {

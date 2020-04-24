@@ -12,7 +12,14 @@
 
 @if (User.Identity.Name != null)
 {
+    @if (Model.Events.Count() == 0)
+    {
+<h1 style=" text-align:center">No events :(</h1>
+    }
+    else
+    {
     <h1 style=" text-align:center">Most Popular Events:</h1>
+    }
     <div class="card-columns">
         @foreach (var appEvent in Model.Events.Take(5))
         {
@@ -26,7 +33,7 @@
                         <a href="@appEvent.Url" class="btn btn-primary">More Info</a>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><font color="black">Time: @appEvent.Date.ToString("dd/MM/yyyy HH:mm:ss")</font></li>
+                        <li class="list-group-item"><font color="black">Time: @appEvent.Date.ToString("dd/MM/yyyy HH:mm")</font></li>
                         <li class="list-group-item"><font color="black">Location: @appEvent.Location</font></li>
                     </ul>
                 </div>
@@ -41,7 +48,7 @@
                         <a href="@appEvent.Url" class="btn btn-primary">More Info</a>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><font color="black">Time: @appEvent.Date.ToString("dd/MM/yyyy HH:mm:ss")</font></li>
+                        <li class="list-group-item"><font color="black">Time: @appEvent.Date.ToString("dd/MM/yyyy HH:mm")</font></li>
                         <li class="list-group-item"><font color="black">Location: @appEvent.Location</font></li>
                     </ul>
                 </div>
@@ -56,7 +63,7 @@
                         <a href="@appEvent.Url" class="btn btn-primary">More Info</a>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><font color="black">Time: @appEvent.Date.ToString("dd/MM/yyyy HH:mm:ss")</font></li>
+                        <li class="list-group-item"><font color="black">Time: @appEvent.Date.ToString("dd/MM/yyyy HH:mm")</font></li>
                         <li class="list-group-item"><font color="black">Location: @appEvent.Location</font></li>
                     </ul>
                 </div>
@@ -71,7 +78,7 @@
                         <a href="@appEvent.Url" class="btn btn-primary">More Info</a>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><font color="black">Time: @appEvent.Date.ToString("dd/MM/yyyy HH:mm:ss")</font></li>
+                        <li class="list-group-item"><font color="black">Time: @appEvent.Date.ToString("dd/MM/yyyy HH:mm")</font></li>
                         <li class="list-group-item"><font color="black">Location: @appEvent.Location</font></li>
                     </ul>
                 </div>

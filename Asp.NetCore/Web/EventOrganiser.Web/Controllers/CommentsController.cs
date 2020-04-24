@@ -31,6 +31,10 @@
         {
             try
             {
+                if (!this.ModelState.IsValid)
+                {
+                    return this.View("Comment", commentViewModel);
+                }
                 if (commentViewModel == null)
                 {
                     return this.RedirectToAction("All");

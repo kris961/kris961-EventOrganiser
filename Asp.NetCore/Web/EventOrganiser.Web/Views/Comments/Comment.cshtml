@@ -1,10 +1,11 @@
 ﻿@model EventOrganiser.Web.ViewModels.Review.CommentViewModel
 <h1>Writing a comment on @Model.EventName</h1>
-    <form style="width:1110px;word-wrap:break-word" method="post" asp-action="Post" asp-controller="Comments">
-        <textarea style="height:300px" asp-for="Messege" class="form-control"></textarea>
-        <input type="hidden" asp-for="EventId" />
-        <input style="margin-top:10px" type="submit" value="Post" class="btn btn-primary" />
-    </form>
+<form style="width:1110px;word-wrap:break-word" method="post" asp-action="Post" asp-controller="Comments">
+    <textarea style="height:300px" asp-for="Messege" class="form-control"></textarea>
+    <span asp-validation-for="Messege"></span>
+    <input type="hidden" asp-for="EventId" />
+    <input style="margin-top:10px" type="submit" value="Post" class="btn btn-primary" />
+</form>
 <script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     tinymce.init({

@@ -30,7 +30,7 @@
 
         public DbSet<Comment> Comments { get; set; }
 
-        public DbSet<Invite> Invites { get; set; }
+        public DbSet<UserTask> Tasks { get; set; }
 
         public DbSet<UsersEvents> UsersEvents { get; set; }
 

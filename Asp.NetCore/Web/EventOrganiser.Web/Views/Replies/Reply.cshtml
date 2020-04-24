@@ -51,12 +51,13 @@
     </div>
     </div>
 
-    <form method="post" asp-action="PostReply" asp-controller="Replies">
-        <input type="hidden" asp-for="@Model.CommentId" />
-        <textarea style="height:300px" asp-for="@Model.Content" class="form-control"></textarea>
-        <input type="hidden" asp-for="@Model.ReplyComment.EventId" />
-        <input style="margin-top:10px" type="submit" value="Post" class="btn btn-primary" />
-    </form>
+<form method="post" asp-action="PostReply" asp-controller="Replies">
+    <input type="hidden" asp-for="@Model.CommentId" />
+    <textarea style="height:300px" asp-for="@Model.Content" class="form-control"></textarea>
+    <span asp-validation-for="Content"></span>
+    <input type="hidden" asp-for="@Model.ReplyComment.EventId" />
+    <input style="margin-top:10px" type="submit" value="Post" class="btn btn-primary" />
+</form>
 
     <script type="text/javascript">
         tinymce.init({

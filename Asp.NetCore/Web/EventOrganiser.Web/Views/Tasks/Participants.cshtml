@@ -1,0 +1,97 @@
+﻿@model EventOrganiser.Web.ViewModels.Event.EventViewModel
+@using Microsoft.AspNetCore.Identity
+@using EventOrganiser.Data.Models
+@inject UserManager<ApplicationUser> userManager
+
+<h1>Participants</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="people-nearby">
+                @foreach (var userEvent in Model.EventsUser)
+                {
+                    <div class="nearby-user">
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2">
+                                <img src="@userEvent.User.Img" alt="user" class="profile-photo-lg">
+                            </div>
+                            <div class="col-md-7 col-sm-7">
+                                @if (this.User.Identity.Name == userEvent.User.UserName)
+                                {
+                                    <h5><a class="profile-link">@userEvent.User.UserName</a></h5>
+                                }
+                                else
+                                {
+                                    <h5><a href="/e/Users/Details?userId=@userEvent.UserId" class="profile-link">@userEvent.User.UserName</a></h5>
+                                }
+                                @if (userEvent.UserId == userEvent.Event.HostId)
+                                {
+                                    <p class="text-muted">Host</p>
+                                }
+                                else
+                                {
+                                    <p class="text-muted">User</p>
+                                }
+                                @{
+                                    var task = @Model.Tasks.FirstOrDefault(x => x.UserId == userEvent.UserId);}
+                                @if (task == null)
+                                {
+                                }
+                                else
+                                {
+                                    <p>@task.Job</p>
+                                }
+                            </div>
+                            @if (task == null && userManager.GetUserId(this.User) == userEvent.Event.HostId)
+                            {
+                                <div class="col-md-3 col-sm-3">
+                                    @{string[] taskParams = { userEvent.UserId, userEvent.EventId };}
+                                    <div style="float:right" id="Add" class="button-holder">
+                                        <a href="/e/AddTask?taskParams=@userEvent.UserId+|+@userEvent.EventId" class="btn btn-primary btn-block text-uppercase">Add Task</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        margin-top: 20px;
+        background: #FAFAFA;
+    }
+    /*==================================================
+    Nearby People CSS
+    ==================================================*/
+
+    .people-nearby .google-maps {
+        background: #f8f8f8;
+        border-radius: 4px;
+        border: 1px solid #f1f2f2;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+        .people-nearby .google-maps .map {
+            height: 300px;
+            width: 100%;
+            border: none;
+        }
+
+    .people-nearby .nearby-user {
+        padding: 20px 0;
+        border-top: 1px solid #f1f2f2;
+        border-bottom: 1px solid #f1f2f2;
+        margin-bottom: 20px;
+    }
+
+    img.profile-photo-lg {
+        height: 80px;
+        width: 80px;
+        border-radius: 50%;
+    }
+</style>

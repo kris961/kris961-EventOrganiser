@@ -54,7 +54,11 @@ namespace EventOrganiser.Web.Controllers
         {
             try
             {
-            if (replyView == null)
+                if (!this.ModelState.IsValid)
+                {
+                    return this.View("Reply", replyView);
+                }
+                if (replyView == null)
              {
                     return this.RedirectToAction("All");
              }
