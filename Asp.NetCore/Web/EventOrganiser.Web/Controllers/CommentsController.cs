@@ -19,7 +19,7 @@
         private readonly ApplicationDbContext dbContext;
         private readonly IDeletableEntityRepository<Comment> commentRepository;
 
-        public CommentsController(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, IDeletableEntityRepository<Comment>commentRepository)
+        public CommentsController(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, IDeletableEntityRepository<Comment> commentRepository)
         {
             this.userManager = userManager;
             this.dbContext = dbContext;
@@ -29,22 +29,46 @@
         [Authorize]
         public async Task<IActionResult> Post(CommentViewModel commentViewModel)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-            var comment = new Comment { User = user, EventId = commentViewModel.EventId, Messege = commentViewModel.Messege, UserId = user.GetUserId(), Replies = new HashSet<Reply>(), Username = user.UserName, PostedOn = DateTime.Now };
-            await this.commentRepository.AddAsync(comment);
-            await this.commentRepository.SaveChangesAsync();
-            return this.RedirectToAction("ById", "Events", new { Id = comment.EventId });
+            try
+            {
+                if (commentViewModel == null)
+                {
+                    return this.RedirectToAction("All");
+                }
+
+                var user = await this.userManager.GetUserAsync(this.User);
+                var comment = new Comment { User = user, EventId = commentViewModel.EventId, Messege = commentViewModel.Messege, UserId = user.GetUserId(), Replies = new HashSet<Reply>(), Username = user.UserName, PostedOn = DateTime.Now };
+                await this.commentRepository.AddAsync(comment);
+                await this.commentRepository.SaveChangesAsync();
+                return this.RedirectToAction("ById", "Events", new { Id = comment.EventId });
+            }
+            catch (Exception)
+            {
+                return this.View("Error");
+            }
         }
 
         [Authorize]
         [HttpGet("/e/Comment")]
         public IActionResult Comment(string eventId)
         {
-            string id = this.userManager.GetUserId(this.User);
-            var user = this.dbContext.Users.FirstOrDefault(x => x.Id == id);
-            var @event = this.dbContext.Events.FirstOrDefault(x => x.Id == eventId);
-            CommentViewModel comment = new CommentViewModel { Img = user.Img, EventId = eventId, EventName = @event.Title };
-            return this.View(comment);
+            try
+            {
+                string id = this.userManager.GetUserId(this.User);
+                var user = this.dbContext.Users.FirstOrDefault(x => x.Id == id);
+                var @event = this.dbContext.Events.FirstOrDefault(x => x.Id == eventId);
+                if (@event == null)
+                {
+                    return this.RedirectToAction("All");
+                }
+
+                CommentViewModel comment = new CommentViewModel { Img = user.Img, EventId = eventId, EventName = @event.Title };
+                return this.View(comment);
+            }
+            catch (Exception)
+            {
+                return this.View("Error");
+            }
         }
     }
 }

@@ -33,7 +33,12 @@ namespace EventOrganiser.Web.Controllers
         public IActionResult Details(string userId)
         {
             var user = this.dbContext.Users.FirstOrDefault(x => x.Id == userId);
-            var userViewModel = new UserViewModel {Id = userId, Username = user.UserName, Events = new List<EventViewModel>() };
+            if (user == null)
+            {
+                return this.RedirectToAction("All");
+            }
+
+            var userViewModel = new UserViewModel { Id = userId, Username = user.UserName, Events = new List<EventViewModel>() };
             var events = this.dbContext.UsersEvents.Where(x => x.UserId == userId).Select(x => x.Event);
             foreach (var @event in events)
             {
@@ -47,22 +52,34 @@ namespace EventOrganiser.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(UserViewModel input)
         {
-            using var stream = input.Img.OpenReadStream();
-
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            ImageUploadParams uploadParams = new ImageUploadParams
+            try
             {
-                Folder = "Users",
-                Transformation = new Transformation().Crop("limit").Width(800).Height(600),
-                File = new FileDescription($"{Guid.NewGuid()}_{@input.Username}", stream),
-            };
+                if (input == null)
+                {
+                    return this.RedirectToAction("All");
+                }
 
-            UploadResult uploadResult = await this.cloudinary.UploadAsync(uploadParams);
-            var imgUrl = uploadResult.SecureUri.AbsoluteUri;
-            user.Img = imgUrl;
-            await this.dbContext.SaveChangesAsync();
-            return this.RedirectToAction("Details", new { userId = user.GetUserId() });
+                using var stream = input.Img.OpenReadStream();
+
+                var user = await this.userManager.GetUserAsync(this.User);
+
+                ImageUploadParams uploadParams = new ImageUploadParams
+                {
+                    Folder = "Users",
+                    Transformation = new Transformation().Crop("limit").Width(800).Height(600),
+                    File = new FileDescription($"{Guid.NewGuid()}_{@input.Username}", stream),
+                };
+
+                UploadResult uploadResult = await this.cloudinary.UploadAsync(uploadParams);
+                var imgUrl = uploadResult.SecureUri.AbsoluteUri;
+                user.Img = imgUrl;
+                await this.dbContext.SaveChangesAsync();
+                return this.RedirectToAction("Details", new { userId = user.GetUserId() });
+            }
+            catch (Exception)
+            {
+                return this.View("Error");
+            }
         }
     }
 }

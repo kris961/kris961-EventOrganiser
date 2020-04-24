@@ -3,6 +3,7 @@
     using EventOrganiser.Data.Models;
     using EventOrganiser.Services.Mapping;
     using EventOrganiser.Web.ViewModels.Review;
+    using System;
     using System.Collections;
     using System.Collections.Generic;
 
@@ -25,7 +26,7 @@
 
         public string Location { get; set; }
 
-        public string DateTime { get; set; }
+        public DateTime Date { get; set; }
 
         public string Entry { get; set; }
 

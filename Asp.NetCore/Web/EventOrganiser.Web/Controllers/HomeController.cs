@@ -1,5 +1,6 @@
 ﻿namespace EventOrganiser.Web.Controllers
 {
+    using System;
     using System.Diagnostics;
     using System.Linq;
 
@@ -23,12 +24,19 @@
 
         public IActionResult Index()
         {
+            try
+            {
             var viewModel = new AllViewModel
             {
                 Events =
                 this.eventsService.GetAll<SingleEventViewModel>(5),
             };
             return this.View(viewModel);
+            }
+            catch (Exception)
+            {
+                return this.View("Error");
+            }
         }
 
         public IActionResult Privacy()

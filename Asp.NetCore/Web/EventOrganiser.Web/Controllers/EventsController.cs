@@ -44,20 +44,40 @@
         [Authorize]
         public IActionResult ById(string id)
         {
+            try
+            {
             var viewModel = this.eventsService.GetById<EventViewModel>(id);
+            if (viewModel == null)
+                {
+                    return this.RedirectToAction("All");
+                }
             return this.View(viewModel);
+            }
+            catch (Exception)
+            {
+                return this.View("Error");
+            }
         }
 
         [Authorize]
         public IActionResult Create()
         {
+            try
+            {
             return this.View();
+            }
+            catch (Exception)
+            {
+                return this.View("Error");
+            }
         }
 
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Create(EventCreateViewModel input)
         {
+            try
+            {
             if (!this.ModelState.IsValid)
             {
                 return this.View(input);
@@ -93,13 +113,25 @@
             await this.eventRepository.AddAsync(@event);
             await this.eventRepository.SaveChangesAsync();
             return this.RedirectToAction("ById", new { Id = @event.Id });
+            }
+            catch (Exception)
+            {
+                return this.View("Error");
+            }
         }
 
         [Authorize]
         [HttpGet("/e/AddUserToEvent")]
         public async Task<IActionResult> Join(string eventId)
         {
+            try
+            {
             var @event = this.eventsService.GetById<Event>(eventId);
+            if (@event == null)
+                {
+                    return this.RedirectToAction("All");
+                }
+
             var user = await this.userManager.GetUserAsync(this.User);
             UsersEvents usersEvents = new UsersEvents { EventId = eventId, Event = @event, User = user, UserId = user.Id };
 
@@ -107,59 +139,119 @@
             await this.dbContext.SaveChangesAsync();
 
             return this.RedirectToAction("ById", new { Id = eventId });
+            }
+            catch (Exception)
+            {
+                return this.View("Error");
+            }
         }
 
         [Authorize]
         [HttpGet("/e/RemoveUserFromEvent")]
         public async Task<IActionResult> Leave(string eventId)
         {
+            try
+            {
             var user = await this.userManager.GetUserAsync(this.User);
             var usersEvent = this.dbContext.UsersEvents.Where(x => x.UserId == user.Id).Where(x => x.EventId == eventId).FirstOrDefault();
+            if (user == null || usersEvent == null)
+                {
+                    return this.RedirectToAction("All");
+                }
+
             this.dbContext.UsersEvents.Remove(usersEvent);
             await this.dbContext.SaveChangesAsync();
 
             return this.RedirectToAction("ById", new { Id = eventId });
+            }
+            catch (Exception)
+            {
+                return this.View("Error");
+            }
         }
 
         [Authorize]
         [HttpGet("/e/EditEvent")]
         public IActionResult Edit(string eventId)
         {
+            try
+            {
             var @event = this.dbContext.Events.FirstOrDefault(x => x.Id == eventId);
+            if (@event == null)
+                {
+                    return this.RedirectToAction("All");
+                }
+
             return this.View(@event);
+            }
+            catch (Exception)
+            {
+                return this.View("Error");
+            }
         }
 
         [Authorize]
         [HttpPost]
         public IActionResult EditEvent(Event @event)
         {
+            try
+            {
+            if (@event == null)
+                {
+                    return this.RedirectToAction("All");
+                }
+
             var oldevent = this.dbContext.Events.FirstOrDefault(x => x.Id == @event.Id);
             this.dbContext.Events.Remove(oldevent);
             this.dbContext.Events.Add(@event);
             this.dbContext.SaveChanges();
             return this.RedirectToAction("All");
+            }
+            catch (Exception)
+            {
+                return this.View("Error");
+            }
         }
 
         [Authorize]
         [HttpGet("/e/DeleteEvent")]
         public async Task<IActionResult> Delete(string eventId)
         {
+            try
+            {
             var @event = this.dbContext.Events.FirstOrDefault(x => x.Id == eventId);
+            if (@event == null)
+                {
+                    return this.RedirectToAction("All");
+                }
+
             @event.IsDeleted = true;
             this.eventRepository.Update(@event);
             await this.dbContext.SaveChangesAsync();
             return this.RedirectToAction("All");
+            }
+            catch (Exception)
+            {
+                return this.View("Error");
+            }
         }
 
         [Authorize]
         public IActionResult All()
         {
+            try
+            {
             var viewModel = new AllViewModel
             {
                 Events =
                 this.eventsService.GetAll<SingleEventViewModel>(),
             };
             return this.View(viewModel);
+            }
+            catch (Exception)
+            {
+                return this.View("Error");
+            }
         }
     }
 }
